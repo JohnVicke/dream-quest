@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import LocalFont from "next/font/local";
 import { ClerkProvider } from "@clerk/nextjs";
 
-import { cn } from "@ff/ui";
+import { Toaster, cn } from "@ff/ui";
 
 import { siteConfig } from "~/config";
 import { ThemeProvider } from "~/providers/theme-provider";
@@ -32,7 +32,10 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }: React.PropsWithChildren) {
+export default function RootLayout({
+  children,
+  modal,
+}: React.PropsWithChildren<{ modal?: React.ReactNode }>) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -44,7 +47,9 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {modal}
             {children}
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
