@@ -3,3 +3,7 @@ export * from "./dropdown-menu";
 export * from "./select";
 export * from "./label";
 export * from "./input";
+export * from "./dialog";
+export * from "./toast";
+export * from "./toaster";
+export * from "./use-toast";
