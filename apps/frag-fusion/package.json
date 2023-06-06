@@ -1,0 +1,35 @@
+{
+  "name": "@ff/frag-fusion",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm with-env next dev",
+    "build": "pnpm with-env next build",
+    "start": "next start",
+    "clean": "git clean -xdf .next .turbo node_modules",
+    "lint": "dotenv -v SKIP_ENV_VALIDATION=1 next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "with-env": "dotenv -e ../../.env --"
+  },
+  "dependencies": {
+    "@ff/ui": "workspace:*",
+    "@t3-oss/env-nextjs": "^0.4.0",
+    "next": "^13.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@ff/tailwind-config": "workspace:*",
+    "@ff/eslind-config": "workspace:*",
+    "@types/node": "^17.0.12",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
+    "dotenv-cli": "^7.2.1",
+    "postcss": "^8.4.23",
+    "server-only": "^0.0.1",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.4"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "frag-fusion-mono",
+  "private": true,
+  "scripts": {
+    "clean": "git clean -xdf node_modules",
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint && manypkg check",
+    "lint:fix": "turbo run lint:fix",
+    "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
+    "type-check": "turbo type-check"
+  },
+  "packageManager": "pnpm@7.15.0",
+  "dependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.2",
+    "@ff/eslint-config": "workspace:*",
+    "@turbo/gen": "^1.9.7",
+    "@types/prettier": "^2.7.3",
+    "eslint": "^7.32.0",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
+    "turbo": "^1.9.7",
+    "typescript": "^5.0.4"
+  }
+}
