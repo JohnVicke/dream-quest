@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Crosshair, Home, Newspaper, Trophy } from "lucide-react";
 
-import { Button } from "@ff/ui/button";
+import { Button } from "@ff/ui";
 
 import { ThemeToggleSelect } from "./theme-toggle-select";
 
