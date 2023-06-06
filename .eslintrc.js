@@ -1,7 +1,7 @@
 /** @type {import("eslint").Linter.Config} */
 const config = {
   root: true,
-  extends: ["@ns/eslint-config"], // uses the config in `packages/config/eslint`
+  extends: ["@ff/eslint-config"], // uses the config in `packages/config/eslint`
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: "latest",
@@ -14,7 +14,7 @@ const config = {
   },
   settings: {
     next: {
-      rootDir: ["apps/vega"],
+      rootDir: ["apps/frag-fusion"],
     },
   },
 };
