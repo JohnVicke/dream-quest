@@ -2,7 +2,7 @@
 
 ## What's inside?
 
-The monorepo currently includes the following apps and packages
+Frag fusion monorepo currently includes the following apps and packages
 
 ### Apps and Packages
 
