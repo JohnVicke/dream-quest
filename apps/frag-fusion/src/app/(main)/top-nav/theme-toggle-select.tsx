@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Laptop, Moon, Sun } from "lucide-react";
+import { Laptop, Loader2, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import {
@@ -14,19 +14,24 @@ import {
 
 export function ThemeToggleSelect() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, systemTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return null;
-
   const TriggerIcon = theme === "dark" ? Moon : Sun;
 
+  const toggleTheme = (value: string) => {
+    if (!mounted) return;
+    if (theme === value) return;
+    if (value === "system") return setTheme(systemTheme!);
+    setTheme(value);
+  };
+
   return (
-    <Select onValueChange={setTheme}>
+    <Select onValueChange={toggleTheme}>
       <SelectTrigger removeChevron className="w-fit">
-        <SelectValue placeholder={<TriggerIcon />}>
-          <TriggerIcon />
+        <SelectValue>
+          {mounted ? <TriggerIcon /> : <Loader2 className="animate-spin" />}
         </SelectValue>
       </SelectTrigger>
       <SelectContent align="end">
@@ -44,13 +49,15 @@ export function ThemeToggleSelect() {
           <Moon />
           Dark
         </SelectItemNoIndicator>
-        <SelectItemNoIndicator
-          className="flex items-center gap-x-2"
-          value="system"
-        >
-          <Laptop />
-          System
-        </SelectItemNoIndicator>
+        {systemTheme && (
+          <SelectItemNoIndicator
+            className="flex items-center gap-x-2"
+            value="system"
+          >
+            <Laptop />
+            System
+          </SelectItemNoIndicator>
+        )}
       </SelectContent>
     </Select>
   );

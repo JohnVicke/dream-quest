@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <>
       <Button variant="outline">hello world</Button>
-      <Link href="/platform">Platform</Link>
+      <Link href="/home">Platform</Link>
     </>
   );
 }

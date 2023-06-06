@@ -4,7 +4,8 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/signin(.*)",
-    "/platform(.*)",
+    "/home(.*)",
+    "/matchmaking(.*)",
     "/terms(.*)",
     "/privacy(.*)",
     "/api(.*)",
