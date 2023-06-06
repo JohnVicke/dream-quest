@@ -10,19 +10,22 @@
     "lint": "dotenv -v SKIP_ENV_VALIDATION=1 next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../.env.local --"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.19.1",
     "@ff/ui": "workspace:*",
     "@t3-oss/env-nextjs": "^0.4.0",
+    "lucide-react": "^0.233.0",
     "next": "^13.4.1",
+    "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@ff/eslint-config": "workspace:*",
     "@ff/tailwind-config": "workspace:*",
-    "@ff/eslind-config": "workspace:*",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
