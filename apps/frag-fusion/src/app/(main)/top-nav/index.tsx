@@ -3,9 +3,10 @@ import { Crosshair, Home, Newspaper, Trophy } from "lucide-react";
 
 import { Button } from "@ff/ui";
 
+import { AuthNavContent } from "./auth-nav-content";
 import { ThemeToggleSelect } from "./theme-toggle-select";
 
-export function TopNavigation() {
+export async function TopNavigation() {
   return (
     <div className="fixed top-0 flex h-16 w-full items-center justify-between space-x-4 border-b px-8">
       <nav className="flex items-center space-x-4">
@@ -40,9 +41,8 @@ export function TopNavigation() {
       </nav>
       <div className="flex gap-x-2">
         <ThemeToggleSelect />
-        <Link href="/signin" passHref>
-          <Button>Sign in</Button>
-        </Link>
+        {/* @ts-ignore React async component*/}
+        <AuthNavContent />
       </div>
     </div>
   );
