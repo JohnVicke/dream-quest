@@ -4,8 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Button } from "@ff/ui/button";
-import { Input } from "@ff/ui/input";
+import { Button, Input } from "@ff/ui";
 
 import {
   Form,
@@ -16,23 +15,38 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/form";
+import { useMagicFlow } from "./use-magic-flow";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  email: z.string().email({
+    message: "Email is incorrect...",
   }),
 });
 
 export function EmailSigninForm() {
+  const { createSignIn, magicSignUpFlow, magicSignInFlow, getFirstFactor } =
+    useMagicFlow();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { email } = values;
+
+    await createSignIn(email);
+
+    const firstFactor = getFirstFactor();
+
+    if (!firstFactor?.emailAddressId) {
+      await magicSignUpFlow(email);
+      return;
+    }
+
+    await magicSignInFlow(firstFactor.emailAddressId);
   }
 
   return (
@@ -40,16 +54,14 @@ export function EmailSigninForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>email</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="joe.doe@mail.com" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
+              <FormDescription>Email address</FormDescription>
               <FormMessage />
             </FormItem>
           )}
