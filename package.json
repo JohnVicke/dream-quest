@@ -5,8 +5,10 @@
     "clean": "git clean -xdf node_modules",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "dev:ff": "turbo run dev --filter=@ff/frag-fusion",
     "lint": "turbo run lint && manypkg check",
     "lint:fix": "turbo run lint:fix",
+    "test": "turbo run test",
     "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
     "type-check": "turbo type-check"
   },

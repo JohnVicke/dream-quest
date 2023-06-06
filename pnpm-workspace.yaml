@@ -1,5 +1,5 @@
 packages:
-  - "apps/vega"
+  - "apps/frag-fusion"
   - "apps/www"
   - "packages/ui"
   - "packages/config/*"
