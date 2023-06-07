@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useSignIn, useSignUp } from "@clerk/nextjs";
-
 import { useToast } from "@ff/ui";
 
 export function useMagicFlow() {

@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { SignOutButton } from "@clerk/nextjs";
-
 import { Button } from "@ff/ui";
 
 export const runtime = "edge";

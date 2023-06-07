@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@ff/ui";
 import { motion } from "framer-motion";
 import { PanelLeftOpen } from "lucide-react";
-
-import { Button } from "@ff/ui";
 
 export function RightAside() {
   const [rightSideOpen, setRightSideOpen] = useState(true);

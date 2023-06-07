@@ -1,9 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Laptop, Loader2, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-
 import {
   Select,
   SelectContent,
@@ -11,8 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@ff/ui";
+import { Laptop, Loader2, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
-export function ThemeToggleSelect() {
+export default function ThemeToggleSelect() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme, systemTheme } = useTheme();
 

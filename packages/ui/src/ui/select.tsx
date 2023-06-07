@@ -115,7 +115,8 @@ const SelectItemNoIndicator = React.forwardRef<
     {children}
   </SelectPrimitive.Item>
 ));
-SelectItem.displayName = SelectPrimitive.Item.displayName;
+
+SelectItemNoIndicator.displayName = "SelectItemNoIndicator";
 
 const SelectSeparator = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Separator>,

@@ -1,9 +1,9 @@
 import "@ff/ui/globals.css";
+
 import { Inter } from "next/font/google";
 import LocalFont from "next/font/local";
 import { ClerkProvider } from "@clerk/nextjs";
-
-import { Toaster, cn } from "@ff/ui";
+import { cn, Toaster } from "@ff/ui";
 
 import { siteConfig } from "~/config";
 import { ThemeProvider } from "~/providers/theme-provider";

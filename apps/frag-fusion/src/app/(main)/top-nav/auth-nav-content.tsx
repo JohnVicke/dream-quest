@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs";
-import { User } from "lucide-react";
-
 import { Avatar, AvatarFallback, AvatarImage, Button } from "@ff/ui";
+import { User } from "lucide-react";
 
 export async function AuthNavContent() {
   const user = await currentUser();
