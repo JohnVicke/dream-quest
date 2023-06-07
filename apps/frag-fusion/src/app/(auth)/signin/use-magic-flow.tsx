@@ -88,7 +88,7 @@ export function useMagicFlow() {
 
   async function createSignIn(email: string) {
     if (!signInLoaded) return;
-    clerkSignIn
+    await clerkSignIn
       .create({
         identifier: email,
       })

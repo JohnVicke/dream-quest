@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Crosshair, Home, Newspaper, Trophy } from "lucide-react";
 
-import { Button } from "@ff/ui";
-
 import { AuthNavContent } from "./auth-nav-content";
 import { ThemeToggleSelect } from "./theme-toggle-select";
 
