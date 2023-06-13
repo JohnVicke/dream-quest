@@ -1,0 +1,32 @@
+{
+  "name": "@ff/ws-server",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "lint:fix": "eslint \"**/*.ts*\" --fix",
+    "with-env": "dotenv -e ../../.env.local --",
+    "type-check": "tsc --noEmit",
+    "dev": "tsup --watch"
+  },
+  "devDependencies": {
+    "@ff/eslint-config": "^0.1.0",
+    "@types/express": "^4.17.17",
+    "@types/node": "^17.0.12",
+    "dotenv-cli": "^7.2.1",
+    "eslint": "^7.32.0",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.2"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^6.0.3"
+  }
+}
