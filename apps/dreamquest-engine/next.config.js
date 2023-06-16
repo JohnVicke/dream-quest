@@ -1,7 +1,11 @@
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  transpilePackages: ["@ff/ui"],
+  pageExtensions: ["ts", "tsx", "mdx"],
+  experimental: {
+    serverActions: true,
+    mdxRs: true,
+  },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 };

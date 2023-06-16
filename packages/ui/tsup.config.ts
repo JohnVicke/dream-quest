@@ -24,6 +24,7 @@ const client = [
 
 const server = [
   "./src/button.tsx",
+  "./src/textarea.tsx",
   "./src/icons.tsx",
   "./src/card.tsx",
   "./src/table.tsx",
@@ -77,6 +78,7 @@ export default defineConfig((opts) => {
             pkgJson.typesVersions["*"][file] = ["dist/" + file + ".d.ts"];
           });
 
+        console.log(pkgJson);
         await writeFile("./package.json", JSON.stringify(pkgJson, null, 2));
       },
     },

@@ -123,6 +123,10 @@
       "import": "./dist/button.mjs",
       "types": "./dist/button.d.ts"
     },
+    "./textarea": {
+      "import": "./dist/textarea.mjs",
+      "types": "./dist/textarea.d.ts"
+    },
     "./icons": {
       "import": "./dist/icons.mjs",
       "types": "./dist/icons.d.ts"
@@ -207,6 +211,9 @@
       ],
       "checkbox": [
         "dist/checkbox.d.ts"
+      ],
+      "textarea": [
+        "dist/textarea.d.ts"
       ]
     }
   }

@@ -2,9 +2,9 @@
 const config = {
   root: true,
   extends: [
-    "@ff/eslint-config/base",
-    "@ff/eslint-config/nextjs",
-    "@ff/eslint-config/react",
+    "@dq/eslint-config/base",
+    "@dq/eslint-config/nextjs",
+    "@dq/eslint-config/react",
   ],
   parserOptions: {
     project: "./tsconfig.json",

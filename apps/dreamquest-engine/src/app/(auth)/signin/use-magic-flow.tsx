@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useSignIn, useSignUp } from "@clerk/nextjs";
-import { useToast } from "@ff/ui";
+
+import { useToast } from "@dq/ui/use-toast";
 
 export function useMagicFlow() {
   const router = useRouter();
@@ -25,6 +26,7 @@ export function useMagicFlow() {
       .catch(console.error);
 
     const { startMagicLinkFlow } = clerkSignUp.createMagicLinkFlow();
+
     toast({
       title: "Email sent",
       description: "Check your email inbox for a link to sign in.",
