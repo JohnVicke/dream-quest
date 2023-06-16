@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@ff/ui";
+import { Button } from "@ff/ui/button";
 
 export default function Page() {
   return (

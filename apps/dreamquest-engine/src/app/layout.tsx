@@ -3,7 +3,8 @@ import "@ff/ui/globals.css";
 import { Inter } from "next/font/google";
 import LocalFont from "next/font/local";
 import { ClerkProvider } from "@clerk/nextjs";
-import { cn, Toaster } from "@ff/ui";
+import { cn } from "@dq/ui";
+import { Toaster } from "@dq/ui/toaster";
 
 import { siteConfig } from "~/config";
 import { ThemeProvider } from "~/providers/theme-provider";

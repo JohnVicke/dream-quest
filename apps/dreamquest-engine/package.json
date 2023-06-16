@@ -1,5 +1,5 @@
 {
-  "name": "@ff/frag-fusion",
+  "name": "@dq/engine",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.19.1",
-    "@ff/ui": "^0.1.0",
+    "@dq/ui": "^0.1.0",
     "@hookform/resolvers": "^3.1.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
@@ -30,8 +30,8 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@ff/eslint-config": "^0.1.0",
-    "@ff/tailwind-config": "^0.1.0",
+    "@dq/eslint-config": "^0.1.0",
+    "@dq/tailwind-config": "^0.1.0",
     "@types/node": "^17.0.12",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",

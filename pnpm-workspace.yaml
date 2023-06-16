@@ -1,5 +1,5 @@
 packages:
-  - "apps/frag-fusion"
-  - "apps/www"
+  - "apps/dreamquest-engine"
+  - "apps/tale-forge"
   - "packages/ui"
   - "packages/config/*"

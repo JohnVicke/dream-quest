@@ -1,5 +1,5 @@
 {
-  "name": "frag-fusion-mono",
+  "name": "dream-quest-mono",
   "private": true,
   "engines": {
     "node": ">=18.0.0"
@@ -9,7 +9,7 @@
     "clean": "git clean -xdf node_modules",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "dev:ff": "turbo run dev --filter=@ff/frag-fusion",
+    "dev:dq": "turbo run dev --filter=@dq/frag-fusion",
     "lint": "turbo run lint && manypkg check",
     "lint:fix": "turbo run lint:fix && manypkg fix",
     "test": "turbo run test",
@@ -17,7 +17,7 @@
     "type-check": "turbo type-check"
   },
   "dependencies": {
-    "@ff/eslint-config": "^0.1.0",
+    "@dq/eslint-config": "^0.1.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.0.2",
     "@manypkg/cli": "^0.20.0",
     "@types/prettier": "^2.7.3",

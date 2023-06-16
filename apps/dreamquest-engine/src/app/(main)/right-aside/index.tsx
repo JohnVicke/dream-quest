@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@ff/ui";
+import { Button } from "@dq/ui/button";
 import { motion } from "framer-motion";
 import { PanelLeftOpen } from "lucide-react";
 

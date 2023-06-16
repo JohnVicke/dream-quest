@@ -7,7 +7,7 @@ import {
   SelectItemNoIndicator,
   SelectTrigger,
   SelectValue,
-} from "@ff/ui";
+} from "@ff/ui/select";
 import { Laptop, Loader2, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
