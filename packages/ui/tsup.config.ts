@@ -20,6 +20,7 @@ const client = [
   "./src/tabs.tsx",
   "./src/toaster.tsx",
   "./src/use-toast.tsx",
+  "./src/radio-group.tsx",
 ];
 
 const server = [

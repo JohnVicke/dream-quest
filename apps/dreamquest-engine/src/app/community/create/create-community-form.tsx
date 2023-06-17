@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InfoIcon } from "lucide-react";
+import { EyeIcon, InfoIcon, LockIcon, User2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@dq/ui/button";
 import { Input } from "@dq/ui/input";
+import { RadioGroup, RadioGroupItem } from "@dq/ui/radio-group";
 
 import {
   Form,
@@ -20,7 +21,7 @@ import {
 
 const formSchema = z.object({
   name: z.string().min(1),
-  type: z.enum(["public", "private"]),
+  type: z.enum(["public", "private", "restricted"]),
 });
 
 export function CreateCommunityForm() {
@@ -44,7 +45,7 @@ export function CreateCommunityForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Community name</FormLabel>
               <FormDescription className="flex items-center">
                 <InfoIcon className="mr-2 inline-block h-4 w-4" />
                 After choosing a name for your community, you can't change it.
@@ -59,7 +60,73 @@ export function CreateCommunityForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Community type</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="public" />
+                    </FormControl>
+                    <div>
+                      <FormLabel className="font-normal">
+                        <User2Icon className="mr-2 inline-block h-4 w-4" />
+                        Public
+                      </FormLabel>
+                      <FormDescription>
+                        Anyone can view this community and post here.
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="private" />
+                    </FormControl>
+                    <div>
+                      <FormLabel className="font-normal">
+                        <EyeIcon className="mr-2 inline-block h-4 w-4" />
+                        Private
+                      </FormLabel>
+                      <FormDescription>
+                        Anyone can view this community, but only approved users
+                        can post here.
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="restricted" />
+                    </FormControl>
+                    <div>
+                      <FormLabel className="font-normal">
+                        <LockIcon className="mr-2 inline-block h-4 w-4" />
+                        Restricted
+                      </FormLabel>
+                      <FormDescription>
+                        Only approved users can view and submit to this
+                        community.
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="w-full">
+          <Button type="submit" className="float-right">
+            Create community
+          </Button>
+        </div>
       </form>
     </Form>
   );

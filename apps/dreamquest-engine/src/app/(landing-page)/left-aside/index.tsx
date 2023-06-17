@@ -23,9 +23,15 @@ export function LeftAside() {
             4
           </p>
           <div className="my-4" />
-          <Link href="/community/create" className="flex items-center gap-x-2">
-            <PlusIcon className="h-6 w-6" />
-            Create community
+          <Link passHref href="/community/create">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="flex w-full items-center gap-x-2"
+            >
+              <PlusIcon className="h-6 w-6" />
+              Create community
+            </Button>
           </Link>
         </div>
       )}
@@ -33,7 +39,7 @@ export function LeftAside() {
         onClick={() => setRightSideOpen(!rightSideOpen)}
         variant="secondary"
         size="sm"
-        className="absolute -right-6 top-16"
+        className="absolute -right-6 top-4"
       >
         <motion.div animate={{ rotate: rightSideOpen ? 180 : 0 }}>
           <PanelLeftOpen className="h-6 w-6" />
