@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Laptop, Loader2, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+
 import {
   Select,
   SelectContent,
   SelectItemNoIndicator,
   SelectTrigger,
   SelectValue,
-} from "@ff/ui/select";
-import { Laptop, Loader2, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+} from "@dq/ui/select";
 
 export default function ThemeToggleSelect() {
   const [mounted, setMounted] = useState(false);

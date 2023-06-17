@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: ["class"],
@@ -46,6 +47,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      fontFamily: {
+        cal: ["var(--font-cal)", ...fontFamily.sans],
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+        bowly: ["var(--font-bowly)", ...fontFamily.sans],
       },
       borderRadius: {
         lg: "var(--radius)",

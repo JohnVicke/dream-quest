@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs";
-import { Avatar, AvatarFallback, AvatarImage } from "@ff/ui/avatar";
-import { Button } from "@ff/ui/button";
-import { User } from "lucide-react";
+import { PlusIcon, User } from "lucide-react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@dq/ui/avatar";
+import { Button } from "@dq/ui/button";
 
 export async function AuthNavContent() {
   const user = await currentUser();
@@ -18,6 +19,9 @@ export async function AuthNavContent() {
 
   return (
     <div className="flex gap-x-2">
+      <Link href="/submit" passHref>
+        <Button>Create post</Button>
+      </Link>
       <Avatar>
         <AvatarImage src={user.profileImageUrl} />
         <AvatarFallback>{initials ? initials : <User />}</AvatarFallback>

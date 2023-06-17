@@ -53,9 +53,6 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: ^0.4.0
         version: 0.4.0(typescript@5.1.3)(zod@3.21.4)
-      ai:
-        specifier: ^2.0.1
-        version: 2.0.1(react@18.2.0)(svelte@3.59.1)
       eslint:
         specifier: ^8.42.0
         version: 8.42.0
@@ -67,13 +64,10 @@ importers:
         version: 0.233.0(react@18.2.0)
       next:
         specifier: ^13.4.1
-        version: 13.4.1(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
+        version: 13.4.1(react-dom@18.2.0)(react@18.2.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@13.4.1)(react-dom@18.2.0)(react@18.2.0)
-      openai-edge:
-        specifier: ^1.0.0
-        version: 1.0.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -695,7 +689,7 @@ packages:
       '@clerk/clerk-react': 4.20.1(react@18.2.0)
       '@clerk/clerk-sdk-node': 4.10.7
       '@clerk/types': 3.42.0
-      next: 13.4.1(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.1(react-dom@18.2.0)(react@18.2.0)
       path-to-regexp: 6.2.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2602,26 +2596,6 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  /ai@2.0.1(react@18.2.0)(svelte@3.59.1):
-    resolution: {integrity: sha512-o7aYrsFJNVe1OlwgrqNxw4dBV5PCJBjsVchcTbP+QrRI9SLucvLzkcydZb9PeMc9vZSusCm/UuYFsYk+U75wWw==}
-    engines: {node: '>=14.6'}
-    peerDependencies:
-      react: ^18.0.0
-      svelte: ^3.29.0
-    peerDependenciesMeta:
-      react:
-        optional: true
-      svelte:
-        optional: true
-    dependencies:
-      eventsource-parser: 1.0.0
-      nanoid: 3.3.6
-      react: 18.2.0
-      sswr: 1.10.0(svelte@3.59.1)
-      svelte: 3.59.1
-      swr: 2.1.5(react@18.2.0)
-    dev: false
-
   /ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
     dependencies:
@@ -3916,11 +3890,6 @@ packages:
   /events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
-    dev: false
-
-  /eventsource-parser@1.0.0:
-    resolution: {integrity: sha512-9jgfSCa3dmEme2ES3mPByGXfgZ87VbP97tng1G2nWwWx6bV2nYxm2AWCrbQjXToSe+yYlqaZNtxffR9IeQr95g==}
-    engines: {node: '>=14.18'}
     dev: false
 
   /execa@5.1.1:
@@ -5635,12 +5604,12 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 13.4.1(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.1(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /next@13.4.1(@babel/core@7.22.5)(react-dom@18.2.0)(react@18.2.0):
+  /next@13.4.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-JBw2kAIyhKDpjhEWvNVoFeIzNp9xNxg8wrthDOtMctfn3EpqGCmW0FSviNyGgOSOSn6zDaX48pmvbdf6X2W9xA==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -5668,7 +5637,7 @@ packages:
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      styled-jsx: 5.1.1(@babel/core@7.22.5)(react@18.2.0)
+      styled-jsx: 5.1.1(react@18.2.0)
       zod: 3.21.4
     optionalDependencies:
       '@next/swc-darwin-arm64': 13.4.1
@@ -5820,11 +5789,6 @@ packages:
       define-lazy-prop: 3.0.0
       is-inside-container: 1.0.0
       is-wsl: 2.2.0
-    dev: false
-
-  /openai-edge@1.0.0:
-    resolution: {integrity: sha512-psrC4fxpP87tWIUaALkqn9cW/8WxvAUOuHG93iXDzXaGsxba/+0QD1RJu2KBiwVTyB6/9q/JxIPRmrCQXD/59Q==}
-    engines: {node: '>=12'}
     dev: false
 
   /optionator@0.9.1:
@@ -6783,15 +6747,6 @@ packages:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
     dev: false
 
-  /sswr@1.10.0(svelte@3.59.1):
-    resolution: {integrity: sha512-nLWAJSQy3h8t7rrbTXanRyVHuQPj4PwKIVGe4IMlxJFdhyaxnN/JGACnvQKGDeWiTGYIZIx/jRuUsPEF0867Pg==}
-    peerDependencies:
-      svelte: ^3.29.0
-    dependencies:
-      svelte: 3.59.1
-      swrev: 3.0.0
-    dev: false
-
   /stdin-discarder@0.1.0:
     resolution: {integrity: sha512-xhV7w8S+bUwlPTb4bAOUQhv8/cSS5offJuX8GQGq32ONF0ZtDWKfkdomM3HMRA+LhX6um/FZ0COqlwsjD53LeQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -6929,7 +6884,7 @@ packages:
       inline-style-parser: 0.1.1
     dev: false
 
-  /styled-jsx@5.1.1(@babel/core@7.22.5)(react@18.2.0):
+  /styled-jsx@5.1.1(react@18.2.0):
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
     engines: {node: '>= 12.0.0'}
     peerDependencies:
@@ -6942,7 +6897,6 @@ packages:
       babel-plugin-macros:
         optional: true
     dependencies:
-      '@babel/core': 7.22.5
       client-only: 0.0.1
       react: 18.2.0
     dev: false
@@ -6990,30 +6944,12 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte@3.59.1:
-    resolution: {integrity: sha512-pKj8fEBmqf6mq3/NfrB9SLtcJcUvjYSWyePlfCqN9gujLB25RitWK8PvFzlwim6hD/We35KbPlRteuA6rnPGcQ==}
-    engines: {node: '>= 8'}
-    dev: false
-
   /swr@1.3.0(react@18.2.0):
     resolution: {integrity: sha512-dkghQrOl2ORX9HYrMDtPa7LTVHJjCTeZoB1dqTbnnEDlSvN8JEKpYIYurDfvbQFUUS8Cg8PceFVZNkW0KNNYPw==}
     peerDependencies:
       react: ^16.11.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
-    dev: false
-
-  /swr@2.1.5(react@18.2.0):
-    resolution: {integrity: sha512-/OhfZMcEpuz77KavXST5q6XE9nrOBOVcBLWjMT+oAE/kQHyE3PASrevXCtQDZ8aamntOfFkbVJp7Il9tNBQWrw==}
-    peerDependencies:
-      react: ^16.11.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false
-
-  /swrev@3.0.0:
-    resolution: {integrity: sha512-QJuZiptdOmbDY45pECBRVEgnoBlOKjeT2MWVz04wKHpWX15hM3P7EjcIbHDg5yLoPCMQ7to3349MEE+l9QF5HA==}
     dev: false
 
   /synckit@0.8.5:
@@ -7473,14 +7409,6 @@ packages:
       detect-node-es: 1.1.0
       react: 18.2.0
       tslib: 2.5.3
-    dev: false
-
-  /use-sync-external-store@1.2.0(react@18.2.0):
-    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /util-deprecate@1.0.2:

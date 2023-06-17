@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Dialog, DialogContent } from "@ff/ui";
+
+import { Dialog, DialogContent } from "@dq/ui/dialog";
 
 import { EmailSigninForm } from "~/app/(auth)/signin/email-signin-form";
 
