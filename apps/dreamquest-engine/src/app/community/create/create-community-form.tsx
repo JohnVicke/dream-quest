@@ -33,7 +33,7 @@ export function CreateCommunityForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
 
@@ -48,7 +48,8 @@ export function CreateCommunityForm() {
               <FormLabel>Community name</FormLabel>
               <FormDescription className="flex items-center">
                 <InfoIcon className="mr-2 inline-block h-4 w-4" />
-                After choosing a name for your community, you can't change it.
+                After choosing a name for your community, you can&apos;t change
+                it.
               </FormDescription>
               <FormControl>
                 <div className="relative">
