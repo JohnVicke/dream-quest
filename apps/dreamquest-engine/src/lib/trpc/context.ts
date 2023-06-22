@@ -4,7 +4,6 @@ import type * as trpcFetch from "@trpc/server/adapters/fetch";
 
 export function createContext({ req }: trpcFetch.FetchCreateContextFnOptions) {
   const { userId } = getAuth(req as any);
-  console.log({ userId });
 
   return {
     req,

@@ -8,6 +8,8 @@ import {
 
 export const community = mysqlTable("community", {
   id: serial("id").primaryKey(),
+  creatorId: varchar("creator_id", { length: 256 }).notNull(),
+  avatarUrl: varchar("avatar_url", { length: 256 }),
   name: varchar("name", { length: 256 }).notNull(),
   normalizedName: varchar("normalized_name", { length: 256 }).notNull(),
   type: mysqlEnum("type", ["public", "private", "restricted"]).notNull(),

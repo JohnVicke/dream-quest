@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeIcon, InfoIcon, LockIcon, User2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -26,15 +27,20 @@ const formSchema = z.object({
   type: z.enum(["public", "private", "restricted"]),
 });
 
-export function CreateCommunityForm() {
+export function CreateCommunityForm({ isModal }: { isModal?: boolean }) {
   const { toast } = useToast();
+  const router = useRouter();
   const create = trpc.community.create.useMutation({
     onSuccess: (data) => {
-      console.log(data);
       toast({
-        title: "Email sent",
-        description: "Check your email inbox for a link to sign in.",
+        // cheer emoji
+        title: `Created community ${data.name} 🎉`,
+        description: "Your community has been created.",
       });
+      router.refresh();
+      if (isModal) {
+        router.back();
+      }
     },
   });
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,7 +71,7 @@ export function CreateCommunityForm() {
               </FormDescription>
               <FormControl>
                 <div className="relative">
-                  <span className="absolute left-2 top-2">r/</span>
+                  <span className="absolute left-2 top-2">c/</span>
                   <Input className="pl-6" {...field} />
                 </div>
               </FormControl>

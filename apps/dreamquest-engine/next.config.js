@@ -8,6 +8,10 @@ const config = {
   },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+  transpilePackages: ["uploadthing", "@uploadthing/react"],
+  images: {
+    domains: ["uploadthing.com"],
+  },
 };
 
 module.exports = config;

@@ -13,10 +13,9 @@ const insertCommunitySchema = z.object({
 export const communityRouter = t.router({
   create: protectedProcedure
     .input(insertCommunitySchema)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const normalizedName = input.name.toLowerCase().trim();
 
-      console.log({ db });
       const community = await db.query.community.findFirst({
         where: eq(schema.community.normalizedName, normalizedName),
       });
@@ -32,9 +31,10 @@ export const communityRouter = t.router({
         normalizedName,
         name: input.name,
         type: input.type,
+        creatorId: ctx.user.id,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      return { id: "1" };
+      return { name: input.name };
     }),
 });

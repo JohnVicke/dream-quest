@@ -79,7 +79,6 @@ export default defineConfig((opts) => {
             pkgJson.typesVersions["*"][file] = ["dist/" + file + ".d.ts"];
           });
 
-        console.log(pkgJson);
         await writeFile("./package.json", JSON.stringify(pkgJson, null, 2));
       },
     },
