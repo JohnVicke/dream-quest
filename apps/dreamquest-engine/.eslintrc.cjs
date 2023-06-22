@@ -6,9 +6,6 @@ const config = {
     "@dq/eslint-config/nextjs",
     "@dq/eslint-config/react",
   ],
-  parserOptions: {
-    project: "./tsconfig.json",
-  },
 };
 
 module.exports = config;

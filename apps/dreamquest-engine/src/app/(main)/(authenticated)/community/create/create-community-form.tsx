@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Button } from "@dq/ui/button";
 import { Input } from "@dq/ui/input";
 import { RadioGroup, RadioGroupItem } from "@dq/ui/radio-group";
+import { useToast } from "@dq/ui/use-toast";
 
 import {
   Form,
@@ -18,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/form";
+import { trpc } from "~/lib/trpc/client";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -25,6 +27,16 @@ const formSchema = z.object({
 });
 
 export function CreateCommunityForm() {
+  const { toast } = useToast();
+  const create = trpc.community.create.useMutation({
+    onSuccess: (data) => {
+      console.log(data);
+      toast({
+        title: "Email sent",
+        description: "Check your email inbox for a link to sign in.",
+      });
+    },
+  });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,7 +46,7 @@ export function CreateCommunityForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    create.mutate(values);
   }
 
   return (

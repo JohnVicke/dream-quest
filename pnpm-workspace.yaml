@@ -2,4 +2,5 @@ packages:
   - "apps/dreamquest-engine"
   - "apps/tale-forge"
   - "packages/ui"
+  - "packages/db"
   - "packages/config/*"

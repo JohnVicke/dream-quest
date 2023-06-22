@@ -5,9 +5,14 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { PanelLeftOpen, PlusIcon } from "lucide-react";
 
+import { Community } from "@dq/db";
 import { Button } from "@dq/ui/button";
 
-export function LeftAside() {
+type LeftAsideProps = {
+  communities: Community[];
+};
+
+export function LeftAside(props: LeftAsideProps) {
   const [rightSideOpen, setRightSideOpen] = useState(true);
   return (
     <motion.aside
@@ -20,7 +25,7 @@ export function LeftAside() {
           <p className="text-sm uppercase opacity-80">
             Communities{" "}
             <span className="text-green-600 dark:text-green-300">online</span> •
-            4
+            {props.communities.length}
           </p>
           <div className="my-4" />
           <Link passHref href="/community/create">
@@ -33,6 +38,11 @@ export function LeftAside() {
               Create community
             </Button>
           </Link>
+          {props.communities.map((community) => (
+            <Link key={community.id} passHref href={`/c/${community.name}`}>
+              {community.name}
+            </Link>
+          ))}
         </div>
       )}
       <Button

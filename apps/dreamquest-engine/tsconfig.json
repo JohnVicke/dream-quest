@@ -1,14 +1,16 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@dq/tsconfig/next.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     },
-    "plugins": [{ "name": "next" }],
-    "strictNullChecks": false
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "exclude": [],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
