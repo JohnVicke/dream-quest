@@ -72,7 +72,13 @@ export function CreateCommunityForm({ isModal }: { isModal?: boolean }) {
               <FormControl>
                 <div className="relative">
                   <span className="absolute left-2 top-2">c/</span>
-                  <Input className="pl-6" {...field} />
+                  <Input
+                    className="pl-6"
+                    {...field}
+                    onChange={(e) =>
+                      field.onChange(e.target.value.replace(/\s+/g, "-"))
+                    }
+                  />
                 </div>
               </FormControl>
               <FormMessage />
@@ -87,7 +93,9 @@ export function CreateCommunityForm({ isModal }: { isModal?: boolean }) {
               <FormLabel>Community type</FormLabel>
               <FormControl>
                 <RadioGroup
-                  onValueChange={field.onChange}
+                  onValueChange={(e) =>
+                    field.onChange(e as "public" | "private" | "restricted")
+                  }
                   defaultValue={field.value}
                   className="flex flex-col space-y-1"
                 >

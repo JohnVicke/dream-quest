@@ -11,7 +11,7 @@ type AsideContentProps = {
   communities: Community[];
 };
 
-export function AsideContent(props: AsideContentProps) {
+export function CommunityAside(props: AsideContentProps) {
   return (
     <div>
       <motion.div

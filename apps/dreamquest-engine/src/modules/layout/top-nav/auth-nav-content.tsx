@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs";
-import { PlusIcon, User } from "lucide-react";
+import { User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@dq/ui/avatar";
 import { Button } from "@dq/ui/button";
+
+import { initialsFromUser } from "~/utils/initials-from-user";
 
 export async function AuthNavContent() {
   const user = await currentUser();
@@ -15,7 +17,7 @@ export async function AuthNavContent() {
     );
   }
 
-  const initials = `${user.firstName?.[0]}${user.lastName?.[0]}`;
+  const initials = initialsFromUser(user);
 
   return (
     <div className="flex gap-x-2">
