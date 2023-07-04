@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Heart, HeartCrack } from "lucide-react";
 
@@ -15,7 +15,7 @@ interface SubscribeButtonProps {
   initialIsSubscribed?: boolean;
 }
 
-export function SubscribeButton({
+export function SubscribeToggleButton({
   isAuthed,
   communityId,
   initialIsSubscribed,
@@ -35,6 +35,15 @@ export function SubscribeButton({
       });
       setIsSubscribed(initialIsSubscribed);
     },
+    onSuccess: () => {
+      startTransition(() => {
+        router.refresh();
+      });
+      toast({
+        title: "You have subscribed to this community 🎉",
+        description: "You will now see posts from this community.",
+      });
+    },
   });
   const unSubscribeMutation = trpc.subscription.unsubscribe.useMutation({
     onMutate: () => {
@@ -42,11 +51,21 @@ export function SubscribeButton({
     },
     onError: () => {
       toast({
-        title: "Oops, looks like we couldn't subscribe you.",
+        title:
+          "Oops, looks like we couldn't unsubscribe you to this community 🙁",
         description: "Something went wrong, try again later.",
         variant: "destructive",
       });
       setIsSubscribed(initialIsSubscribed);
+    },
+    onSuccess: () => {
+      startTransition(() => {
+        router.refresh();
+      });
+      toast({
+        title: "You have unsubscribed from this community. 🥲 ",
+        description: "You will no longer see posts from this community.",
+      });
     },
   });
 

@@ -76,7 +76,7 @@ export function CreateCommunityForm({ isModal }: { isModal?: boolean }) {
                     className="pl-6"
                     {...field}
                     onChange={(e) =>
-                      field.onChange(e.target.value.replace(/\s+/g, "-"))
+                      field.onChange(e.target.value.replace(/\s+/g, ""))
                     }
                   />
                 </div>

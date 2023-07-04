@@ -7,7 +7,7 @@ import { Settings } from "lucide-react";
 
 import { and, db, eq, schema } from "@dq/db";
 
-import { SubscribeButton } from "~/modules/community/subscribe-button";
+import { SubscribeToggleButton } from "~/modules/community/subscribe-toggle-button";
 import { CreatePostTrigger } from "~/modules/posts/create-post-trigger";
 import { PostCardBasic } from "~/modules/posts/post-card-basic";
 import { ReactQueryProvider } from "~/providers/react-query-provider";
@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: { name: string } }) {
     <>
       {userId === community.creatorId && (
         <Link
-          href={`/c/${community.name}/settings`}
+          href={`/c/${community.name}/${community.id}/settings`}
           className="mb-4 flex items-center gap-x-2"
         >
           <Settings className="h-4 w-4" />
@@ -61,7 +61,7 @@ export default async function Page({ params }: { params: { name: string } }) {
         )}
         <h1 className="text-2xl font-bold">{community.name}</h1>
         <ReactQueryProvider>
-          <SubscribeButton
+          <SubscribeToggleButton
             isAuthed={!!userId}
             communityId={community.id}
             initialIsSubscribed={!!isSubscribed}

@@ -1,4 +1,4 @@
-import { db, desc, schema, sql } from "@dq/db";
+import { db, desc, schema } from "@dq/db";
 
 import { CreatePostTrigger } from "~/modules/posts/create-post-trigger";
 import { PostCardBasic } from "~/modules/posts/post-card-basic";
@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 export default async function LandingPage() {
+  // TODO: only grab public communities
   const posts = await db.query.post.findMany({
     with: {
       community: true,
