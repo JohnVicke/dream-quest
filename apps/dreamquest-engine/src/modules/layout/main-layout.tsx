@@ -1,12 +1,10 @@
 import { TopNavigation } from "./top-nav";
 
-export default function MainLayout(
-  props: React.PropsWithChildren<{ asideContent: React.ReactNode }>,
-) {
+export default function MainLayout(props: React.PropsWithChildren) {
   return (
     <>
       <TopNavigation />
-      {props.children}
+      <main className="pt-16">{props.children}</main>
     </>
   );
 }

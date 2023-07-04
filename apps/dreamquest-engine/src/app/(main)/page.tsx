@@ -1,35 +1,39 @@
-import Link from "next/link";
-import { format } from "date-fns";
-
-import { db } from "@dq/db";
+import { db, desc, eq, schema } from "@dq/db";
 
 import { CreatePostTrigger } from "~/modules/posts/create-post-trigger";
+import { PostCardBasic } from "~/modules/posts/post-card-basic";
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export default async function LandingPage() {
-  const posts = await db.query.post.findMany();
+  const posts = await db
+    .select({
+      id: schema.post.id,
+      title: schema.post.title,
+      content: schema.post.content,
+      createdAt: schema.post.createdAt,
+      updatedAt: schema.post.updatedAt,
+      creatorId: schema.post.creatorId,
+      communityAvatarUrl: schema.community.avatarUrl,
+      communityName: schema.community.name,
+    })
+    .from(schema.post)
+    .innerJoin(
+      schema.community,
+      eq(schema.post.communityName, schema.community.name),
+    )
+    .orderBy(desc(schema.post.createdAt));
+
   return (
     <div className="h-screen">
       <CreatePostTrigger />
-      {posts.map((post) => (
-        <div key={post.id} className="rounded-lg border p-4 shadow-lg">
-          <Link
-            className="text-xl font-bold"
-            href={`/c/${post.communityName}/${post.id}`}
-          >
-            {post.title}
-          </Link>
-          <div className="flex justify-between gap-x-4">
-            <dt className="text-gray-500">Created</dt>
-            <dd className="text-gray-700">
-              <time dateTime={post.createdAt.toDateString()}>
-                {format(post.createdAt, "MMMM d, yyyy")}
-              </time>
-            </dd>
-            <dt className="text-gray-500">Author</dt>
-            <dd className="text-gray-700">{post.creatorId}</dd>
-          </div>
-        </div>
-      ))}
+      <div className="py-4" />
+      <div className="flex flex-col gap-y-2">
+        {posts.map((post) => (
+          <PostCardBasic key={post.id} post={post} />
+        ))}
+      </div>
     </div>
   );
 }

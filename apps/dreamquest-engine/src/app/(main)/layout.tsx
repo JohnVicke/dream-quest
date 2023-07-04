@@ -1,21 +1,9 @@
-import { db } from "@dq/db";
+import MainLayout from "~/modules/layout/main-layout";
 
-import { CommunityAside } from "~/modules/layout/community-aside";
-import { LayoutWithLeftAside } from "~/modules/layout/layout-with-left-aside";
-import { TopNavigation } from "~/modules/layout/top-nav";
-
-export default async function Layout({ children }: React.PropsWithChildren) {
-  const communities = await db.query.community.findMany();
+export default function Layout({ children }: React.PropsWithChildren) {
   return (
-    <>
-      <TopNavigation />
-      <div className="pt-16">
-        <LayoutWithLeftAside
-          asideContent={<CommunityAside communities={communities} />}
-        >
-          {children}
-        </LayoutWithLeftAside>
-      </div>
-    </>
+    <MainLayout>
+      <div className="pt-16">{children}</div>
+    </MainLayout>
   );
 }

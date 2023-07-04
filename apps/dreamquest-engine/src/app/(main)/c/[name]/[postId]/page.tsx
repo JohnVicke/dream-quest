@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
+import { Trash } from "lucide-react";
 
 import { db, eq, schema } from "@dq/db";
+import { Button } from "@dq/ui/button";
 
 interface CommunityPostPageProps {
   params: {
@@ -23,6 +25,9 @@ export default async function CommunityPostPage({
     <div>
       <h1>{post.title}</h1>
       <p>{JSON.stringify(JSON.parse(post.content as string), null, 2)}</p>
+      <Button variant="destructive">
+        <Trash />
+      </Button>
     </div>
   );
 }
