@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   datetime,
   mysqlEnum,
@@ -6,6 +7,8 @@ import {
   uniqueIndex,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { post } from "./post";
 
 export const community = mysqlTable(
   "community",
@@ -23,3 +26,7 @@ export const community = mysqlTable(
     nameIdx: uniqueIndex("name_idx").on(table.name),
   }),
 );
+
+export const communityRelations = relations(community, ({ many }) => ({
+  posts: many(post),
+}));

@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   datetime,
   json,
@@ -5,6 +6,9 @@ import {
   serial,
   varchar,
 } from "drizzle-orm/mysql-core";
+
+import { community } from "./community";
+import { vote } from "./vote";
 
 export const post = mysqlTable("post", {
   id: serial("id").primaryKey(),
@@ -15,3 +19,11 @@ export const post = mysqlTable("post", {
   createdAt: datetime("created_at", { fsp: 3 }).notNull(),
   updatedAt: datetime("updated_at", { fsp: 3 }).notNull(),
 });
+
+export const postRelations = relations(post, ({ one, many }) => ({
+  community: one(community, {
+    fields: [post.communityName],
+    references: [community.name],
+  }),
+  votes: many(vote),
+}));

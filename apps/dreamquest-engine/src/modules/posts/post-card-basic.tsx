@@ -1,37 +1,42 @@
 import Image from "next/image";
 import Link from "next/link";
 import { clerkClient } from "@clerk/nextjs";
-import { ChevronDown, ChevronUp } from "lucide-react";
 
-import { Community, Post } from "@dq/db";
-import { cn } from "@dq/ui";
-import { Button } from "@dq/ui/button";
+import { db, eq, Post, schema, sql } from "@dq/db";
+
+import { VoteControls } from "./vote-controls";
 
 interface PostCardBasicProps {
-  post: Post & {
-    communityAvatarUrl: string | null;
-  };
+  post: Post & { votes: number };
+  communityAvatarUrl?: string | null;
 }
 
-export async function PostCardBasic({ post }: PostCardBasicProps) {
+export async function PostCardBasic({
+  post,
+  communityAvatarUrl,
+}: PostCardBasicProps) {
   const user = await clerkClient.users.getUser(post.creatorId);
+  const votes = await db
+    .select({ votes: sql<number>`count(*)` })
+    .from(schema.vote)
+    .where(eq(schema.vote.postId, post.id));
 
   return (
     <div
       key={post.id}
       className="relative flex gap-x-4 rounded-lg border shadow-lg"
     >
-      <VoteControls className="z-10" />
+      <VoteControls className="z-10" initialVotes={votes[0].votes} />
       <div className="flex flex-col p-4">
         <div className="flex items-end gap-x-2 [&>a]:z-10">
           <Link
             className="flex items-end gap-x-2 text-xs font-semibold"
             href={`/c/${post.communityName}`}
           >
-            {post.communityAvatarUrl && (
+            {communityAvatarUrl && (
               <Image
                 className="rounded-full"
-                src={post.communityAvatarUrl}
+                src={communityAvatarUrl}
                 alt={`${post.communityName} avatar`}
                 width={20}
                 height={20}
@@ -51,25 +56,6 @@ export async function PostCardBasic({ post }: PostCardBasicProps) {
       >
         <span className="hidden">{post.title}</span>
       </Link>
-    </div>
-  );
-}
-
-function VoteControls({ className }: { className?: string }) {
-  return (
-    <div
-      className={cn(
-        "flex w-10 flex-col items-center justify-center space-y-2 bg-muted",
-        className,
-      )}
-    >
-      <Button variant="outline" size="xs" className="group">
-        <ChevronUp className="h-4 w-4 group-hover:text-green-400" />
-      </Button>
-      <p className="text-xs font-bold">214</p>
-      <Button variant="ghost" size="xs" className="group">
-        <ChevronDown className="h-4 w-4 group-hover:text-red-400" />
-      </Button>
     </div>
   );
 }
