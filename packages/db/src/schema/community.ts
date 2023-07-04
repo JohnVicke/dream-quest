@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { post } from "./post";
+import { subscription } from "./subscription";
 
 export const community = mysqlTable(
   "community",
@@ -29,4 +30,5 @@ export const community = mysqlTable(
 
 export const communityRelations = relations(community, ({ many }) => ({
   posts: many(post),
+  subscriptions: many(subscription),
 }));

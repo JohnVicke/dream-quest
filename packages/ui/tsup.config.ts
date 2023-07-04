@@ -10,6 +10,7 @@ const client = [
   "./src/data-table.tsx",
   "./src/dialog.tsx",
   "./src/dropdown-menu.tsx",
+  "./src/hover-card.tsx",
   "./src/form.tsx",
   "./src/input.tsx",
   "./src/label.tsx",
@@ -35,6 +36,7 @@ const server = [
 export default defineConfig((opts) => {
   const common = {
     clean: !opts.watch,
+    target: "es6",
     dts: true,
     format: ["esm"],
     minify: true,

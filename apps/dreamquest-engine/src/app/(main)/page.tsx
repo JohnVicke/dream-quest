@@ -1,4 +1,4 @@
-import { db, desc, schema } from "@dq/db";
+import { db, desc, schema, sql } from "@dq/db";
 
 import { CreatePostTrigger } from "~/modules/posts/create-post-trigger";
 import { PostCardBasic } from "~/modules/posts/post-card-basic";

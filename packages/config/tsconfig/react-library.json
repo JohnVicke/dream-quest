@@ -3,8 +3,8 @@
   "display": "React Library",
   "extends": "./base.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "lib": ["dom", "dom.Iterable", "ES2015"],
+    "jsx": "preserve",
+    "lib": ["dom", "dom.Iterable", "esnext"],
     "module": "ESNext",
     "target": "es2017"
   }
