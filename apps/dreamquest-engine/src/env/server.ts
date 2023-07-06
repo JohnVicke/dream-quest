@@ -3,11 +3,11 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    API_BASE_URL: z.string().min(1),
+    CLERK_WEBHOOK_SECRET: z.string(),
     CLERK_SECRET_KEY: z.string().optional(),
   },
   runtimeEnv: {
-    API_BASE_URL: process.env.API_BASE_URL,
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+    CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
   },
 });
