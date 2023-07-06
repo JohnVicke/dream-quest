@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^4.10.15",
-    "@clerk/nextjs": "^4.21.9",
+    "@clerk/nextjs": "^4.21.13",
     "@dq/db": "workspace:^",
     "@dq/tsconfig": "workspace:^",
     "@dq/ui": "workspace:^",

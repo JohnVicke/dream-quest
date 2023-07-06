@@ -9,6 +9,9 @@ import { Webhook, WebhookRequiredHeaders } from "svix";
 
 import { exhaustive } from "~/utils/exhaustive";
 import { env } from "~/env/server";
+import { handleUserCreation } from "./_handlers/user-creation";
+import { handleUserDeletion } from "./_handlers/user-deletion";
+import { handleUserUpdate } from "./_handlers/user-update";
 
 type AllowedEventTypes = "user.created" | "user.updated" | "user.deleted";
 type VerifiedPayload = Extract<WebhookEvent, { type: AllowedEventTypes }>;
@@ -24,8 +27,9 @@ export async function POST(req: Request) {
         return handleUserCreation(payload.data);
       case "user.updated":
         return handleUserUpdate(payload.data);
-      case "user.deleted":
+      case "user.deleted": {
         return handleUserDeletion(payload.data);
+      }
       default:
         return exhaustive(payload);
     }
@@ -34,26 +38,11 @@ export async function POST(req: Request) {
   }
 }
 
-function getSvixHeaders(): WebhookRequiredHeaders {
+function getSvixHeaders() {
   const requestHeaders = headers();
   return {
     "svix-id": requestHeaders.get("svix-id") ?? "",
     "svix-timestamp": requestHeaders.get("svix-timestamp") ?? "",
     "svix-signature": requestHeaders.get("svix-signature") ?? "",
-  };
-}
-
-function handleUserCreation(user: UserJSON) {
-  console.log("created", user);
-  return new NextResponse("ok");
-}
-
-function handleUserUpdate(user: UserJSON) {
-  console.log("updated", user);
-  return new NextResponse("ok");
-}
-
-function handleUserDeletion(deletedObj: DeletedObjectJSON) {
-  console.log("deleted", deletedObj);
-  return new NextResponse("ok");
+  } satisfies WebhookRequiredHeaders;
 }

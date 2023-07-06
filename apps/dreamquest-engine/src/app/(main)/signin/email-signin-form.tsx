@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@dq/ui/button";
-import { Input } from "@dq/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Button } from "@dq/ui/button";
+import { Input } from "@dq/ui/input";
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -40,10 +40,10 @@ export function EmailSigninForm() {
     await createSignIn(email);
 
     const firstFactor = getFirstFactor();
+    console.log(firstFactor);
 
     if (!firstFactor?.emailAddressId) {
-      await magicSignUpFlow(email);
-      return;
+      return await magicSignUpFlow(email);
     }
 
     await magicSignInFlow(firstFactor.emailAddressId);
@@ -57,11 +57,10 @@ export function EmailSigninForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>email</FormLabel>
+              <FormLabel>Email address or username</FormLabel>
               <FormControl>
                 <Input placeholder="joe.doe@mail.com" {...field} />
               </FormControl>
-              <FormDescription>Email address</FormDescription>
               <FormMessage />
             </FormItem>
           )}

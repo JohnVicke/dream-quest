@@ -7,7 +7,7 @@ import { subscription } from "./subscription";
 
 export const user = mysqlTable("user", {
   id: varchar("id", { length: 256 }).notNull(),
-  username: varchar("username", { length: 256 }).notNull(),
+  username: varchar("username", { length: 256 }),
   profileImageUrl: varchar("profile_image_url", { length: 256 }),
 });
 

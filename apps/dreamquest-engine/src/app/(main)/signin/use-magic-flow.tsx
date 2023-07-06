@@ -93,12 +93,8 @@ export function useMagicFlow() {
       .create({
         identifier: email,
       })
-      .catch(() => {
-        toast({
-          title: "Error",
-          description: "Something went wrong, please try again...",
-          variant: "destructive",
-        });
+      .catch((error) => {
+        console.log("sign-in error", JSON.stringify(error));
       });
   }
 

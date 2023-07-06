@@ -2,13 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
-  publicRoutes: ["/signin(.*)", "/api(.*)", "/", "/c(.*)"],
-  signInUrl: "/signin",
+  publicRoutes: ["/signin(.*)", "/api(.*)", "/", "/c(.*)", "/sso-callback(.*)"],
   afterAuth(auth, req) {
+    if (auth.isPublicRoute) {
+      return NextResponse.next();
+    }
     if (!auth.userId && req.nextUrl.pathname.endsWith("settings")) {
       return redirect("/signin", req);
     }
-    if (!(auth.userId || auth.isPublicRoute)) {
+    if (!auth.userId) {
       return redirect("/signin", req);
     }
   },
@@ -18,5 +20,7 @@ export const config = {
 };
 
 const redirect = (url: string, req: NextRequest) => {
-  return NextResponse.redirect(new URL(url, req.url));
+  const redirectUrl = new URL(req.nextUrl.origin);
+  redirectUrl.pathname = url;
+  return NextResponse.redirect(redirectUrl);
 };

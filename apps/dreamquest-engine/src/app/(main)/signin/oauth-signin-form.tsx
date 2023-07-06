@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSignIn } from "@clerk/nextjs";
+import { Loader2 } from "lucide-react";
 
 import { Button } from "@dq/ui/button";
 
@@ -29,10 +30,15 @@ export function OauthSigninForm() {
       await signIn.authenticateWithRedirect({
         strategy: provider,
         redirectUrl: "/sso-callback",
-        redirectUrlComplete: "/home",
+        continueSignUp: true,
+        redirectUrlComplete: "/",
       });
     } catch (e) {
       console.error(e);
+      setProviderStatus((prev) => ({
+        ...prev,
+        [provider]: false,
+      }));
     }
   }
 
@@ -42,12 +48,14 @@ export function OauthSigninForm() {
         disabled={providerStatus.oauth_facebook}
         onClick={() => handleSignIn("oauth_facebook")}
       >
+        {providerStatus.oauth_facebook && <Loader2 className="animate-spin" />}
         sign in with facebook
       </Button>
       <Button
         disabled={providerStatus.oauth_google}
         onClick={() => handleSignIn("oauth_google")}
       >
+        {providerStatus.oauth_google && <Loader2 className="animate-spin" />}
         sign in with Google
       </Button>
     </div>
