@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Home } from "lucide-react";
 
 import { AuthNavContent } from "./auth-nav-content";
+import { CommunityCombobox } from "./community-combobox";
 
 const ThemeToggleSelect = dynamic(() => import("./theme-toggle-select"), {
   ssr: false,
@@ -16,9 +16,9 @@ export function TopNavigation() {
           href="/"
           className="flex items-center gap-x-2 text-sm font-medium transition-colors hover:text-primary"
         >
-          <Home className="h-4 w-4" />
-          Home
+          Dreamquest
         </Link>
+        <CommunityCombobox />
       </nav>
       <div className="flex gap-x-2">
         <ThemeToggleSelect />

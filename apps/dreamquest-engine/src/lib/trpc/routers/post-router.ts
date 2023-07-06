@@ -15,7 +15,7 @@ export const postRouter = t.router({
   create: protectedProcedure
     .input(insertCommunitySchema)
     .mutation(async ({ input, ctx }) => {
-      await db.insert(schema.post).values({
+      const post = await db.insert(schema.post).values({
         title: input.title,
         content: JSON.stringify(input.content ?? { hello: "world" }),
         communityName: input.communityName,
@@ -23,7 +23,7 @@ export const postRouter = t.router({
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      return { title: input.title };
+      return { title: input.title, id: post.insertId };
     }),
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
