@@ -8,6 +8,7 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { community } from "./community";
+import { user } from "./user";
 import { vote } from "./vote";
 
 export const post = mysqlTable("post", {
@@ -26,4 +27,8 @@ export const postRelations = relations(post, ({ one, many }) => ({
     references: [community.name],
   }),
   votes: many(vote),
+  creator: one(user, {
+    fields: [post.creatorId],
+    references: [user.id],
+  }),
 }));

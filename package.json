@@ -14,7 +14,8 @@
     "lint:fix": "turbo run lint:fix && manypkg fix",
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
-    "type-check": "turbo type-check"
+    "type-check": "turbo type-check",
+    "db:push": "turbo run db:push --filter=@dq/db"
   },
   "dependencies": {
     "@dq/eslint-config": "^0.1.0",

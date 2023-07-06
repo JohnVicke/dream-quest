@@ -10,6 +10,7 @@ import {
 
 import { post } from "./post";
 import { subscription } from "./subscription";
+import { user } from "./user";
 
 export const community = mysqlTable(
   "community",
@@ -28,7 +29,11 @@ export const community = mysqlTable(
   }),
 );
 
-export const communityRelations = relations(community, ({ many }) => ({
+export const communityRelations = relations(community, ({ many, one }) => ({
   posts: many(post),
   subscriptions: many(subscription),
+  creator: one(user, {
+    fields: [community.creatorId],
+    references: [user.id],
+  }),
 }));
