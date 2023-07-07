@@ -27,7 +27,7 @@ export function CommunityCombobox({ communities }: CommunityComboboxProps) {
   const pattern = /\/c\/(.*)/;
   const match = pathname.match(pattern);
   const rawMatch = match ? match[1] : "";
-  const communityName = rawMatch.split("/")[0];
+  const [communityName, ...rest] = rawMatch.split("/");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -39,7 +39,7 @@ export function CommunityCombobox({ communities }: CommunityComboboxProps) {
           className="w-[200px] justify-between"
         >
           {match ? (
-            <>{rawMatch}</>
+            <>{rest.includes("settings") ? rawMatch : communityName}</>
           ) : (
             <div className="flex items-center gap-x-2 text-muted-foreground">
               <Home className="h-4 w-4" /> Home
