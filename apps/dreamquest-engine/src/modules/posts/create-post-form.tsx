@@ -1,6 +1,5 @@
 "use client";
 
-import { startTransition } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -22,7 +21,7 @@ import { trpc } from "~/lib/trpc/client";
 
 const formSchema = z.object({
   title: z.string().min(1),
-  communityName: z.string().min(1),
+  communityName: z.string().min(1).optional(),
 });
 
 export function CreatePostForm({ communityName }: { communityName?: string }) {
@@ -35,9 +34,7 @@ export function CreatePostForm({ communityName }: { communityName?: string }) {
         title: `Created post ${data.title} 🎉`,
         description: "Your post has been created.",
       });
-      startTransition(() => {
-        router.push(`/p/${communityName}/${data.id}`);
-      });
+      router.push(`/c/${communityName}/${data.id}`);
     },
   });
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,6 +45,7 @@ export function CreatePostForm({ communityName }: { communityName?: string }) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("values", values);
     if (!communityName) {
       return toast({
         title: "Community name is required",
