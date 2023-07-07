@@ -3,7 +3,7 @@ import { currentUser } from "@clerk/nextjs";
 import { LogOut, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@dq/ui/avatar";
-import { Button, buttonVariants } from "@dq/ui/button";
+import { Button } from "@dq/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +15,7 @@ import { initialsFromUser } from "~/utils/initials-from-user";
 
 export async function AuthNavContent() {
   const user = await currentUser();
+
   if (!user) {
     return (
       <Link href="/signin" passHref>
