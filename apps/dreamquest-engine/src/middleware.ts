@@ -13,6 +13,7 @@ export default authMiddleware({
     if (!auth.userId) {
       return redirect("/signin", req);
     }
+    return NextResponse.next();
   },
 });
 export const config = {
