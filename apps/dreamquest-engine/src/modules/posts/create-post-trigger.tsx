@@ -16,19 +16,16 @@ export async function CreatePostTrigger({
   communityName,
 }: CreatePostTriggerProps) {
   const user = await currentUser();
-  if (!user) {
-    return null;
-  }
-
-  const initials = initialsFromUser(user);
 
   const href = communityName ? `/c/${communityName}/submit` : "/submit";
 
   return (
     <div className="flex gap-x-2">
       <Avatar>
-        <AvatarImage src={user.profileImageUrl} />
-        <AvatarFallback>{initials ? initials : <User />}</AvatarFallback>
+        <AvatarImage src={user?.profileImageUrl} />
+        <AvatarFallback>
+          {user ? initialsFromUser(user) : <User />}
+        </AvatarFallback>
       </Avatar>
       <Link href={href} passHref className="w-full">
         <Input placeholder="Create post" />
