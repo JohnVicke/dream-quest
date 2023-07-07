@@ -1,10 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown, Home } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Check, ChevronsUpDown, Home, Plus } from "lucide-react";
 
+import { Community } from "@dq/db";
 import { cn } from "@dq/ui";
-import { Button } from "@dq/ui/button";
+import { Button, buttonVariants } from "@dq/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -14,32 +17,17 @@ import {
 } from "@dq/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@dq/ui/popover";
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+interface CommunityComboboxProps {
+  communities: Community[];
+}
 
-export async function CommunityCombobox() {
+export function CommunityCombobox({ communities }: CommunityComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const pathname = usePathname();
+  const pattern = /\/c\/(.*)/;
+  const match = pathname.match(pattern);
+  const rawMatch = match ? match[1] : "";
+  const communityName = rawMatch.split("/")[0];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -50,8 +38,8 @@ export async function CommunityCombobox() {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value ? (
-            frameworks.find((framework) => framework.value === value)?.label
+          {match ? (
+            <>{rawMatch}</>
           ) : (
             <div className="flex items-center gap-x-2 text-muted-foreground">
               <Home className="h-4 w-4" /> Home
@@ -63,24 +51,29 @@ export async function CommunityCombobox() {
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <Link
+            className={buttonVariants({ variant: "ghost" })}
+            href="/c/create"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Create community
+          </Link>
+          <CommandEmpty>No communities found..</CommandEmpty>
           <CommandGroup>
-            {frameworks.map((framework) => (
-              <CommandItem
-                key={framework.value}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === framework.value ? "opacity-100" : "opacity-0",
-                  )}
-                />
-                {framework.label}
-              </CommandItem>
+            {communities.map((community) => (
+              <Link href={`/c/${community.name}`} key={community.id} passHref>
+                <CommandItem>
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      communityName === community.name
+                        ? "opacity-100"
+                        : "opacity-0",
+                    )}
+                  />
+                  {community.name}
+                </CommandItem>
+              </Link>
             ))}
           </CommandGroup>
         </Command>
