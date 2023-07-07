@@ -1,12 +1,12 @@
-import { EmailSigninForm } from "./email-signin-form";
-import { OauthSigninForm } from "./oauth-signin-form";
+import { Metadata } from "next";
+
+import { SignInCard } from "~/modules/auth/sign-in-card";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to your account",
+};
 
 export default function SigninPage() {
-  return (
-    <div>
-      <OauthSigninForm />
-      <div className="w-full border border-b py-4" />
-      <EmailSigninForm />
-    </div>
-  );
+  return <SignInCard />;
 }

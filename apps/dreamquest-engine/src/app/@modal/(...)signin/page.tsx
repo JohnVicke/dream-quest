@@ -1,31 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Dialog, DialogContent } from "@dq/ui/dialog";
 
-import { EmailSigninForm } from "~/app/(main)/signin/email-signin-form";
-import { OauthSigninForm } from "~/app/(main)/signin/oauth-signin-form";
+import { SignInCard } from "~/modules/auth/sign-in-card";
 
 export default function SignInModal() {
   const router = useRouter();
+  const pathname = usePathname();
   return (
     <Dialog
-      open
+      open={pathname === "/signin"}
       onOpenChange={() => {
         router.back();
       }}
     >
       <DialogContent>
-        <div className="p-4">
-          <OauthSigninForm />
-          <div className="my-4 flex items-center gap-x-4">
-            <div className="w-full border border-b" />
-            <p className="text-muted-foreground">or...</p>
-            <div className="w-full border border-b" />
-          </div>
-          <EmailSigninForm />
-        </div>
+        <SignInCard className="border-none" />
       </DialogContent>
     </Dialog>
   );

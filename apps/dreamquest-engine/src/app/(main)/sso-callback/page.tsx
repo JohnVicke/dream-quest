@@ -18,12 +18,11 @@ export default function SSOCallback(props: { searchParams: SearchParams }) {
   const { handleRedirectCallback } = useClerk();
 
   useEffect(() => {
-    void handleRedirectCallback(props.searchParams);
-    console.log(props);
+    //void handleRedirectCallback(props.searchParams);
   }, [props.searchParams, handleRedirectCallback]);
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex h-[60vh] w-full items-center justify-center">
       <Loader2 className="mr-2 h-16 w-16 animate-spin" />
     </div>
   );
