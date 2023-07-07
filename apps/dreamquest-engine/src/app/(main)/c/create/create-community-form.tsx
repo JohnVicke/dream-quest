@@ -1,5 +1,6 @@
 "use client";
 
+import { startTransition } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeIcon, InfoIcon, LockIcon, User2Icon } from "lucide-react";
@@ -27,20 +28,19 @@ const formSchema = z.object({
   type: z.enum(["public", "private", "restricted"]),
 });
 
-export function CreateCommunityForm({ isModal }: { isModal?: boolean }) {
+export function CreateCommunityForm() {
   const { toast } = useToast();
   const router = useRouter();
   const create = trpc.community.create.useMutation({
     onSuccess: (data) => {
       toast({
-        // cheer emoji
         title: `Created community ${data.name} 🎉`,
         description: "Your community has been created.",
       });
-      router.refresh();
-      if (isModal) {
-        router.back();
-      }
+      startTransition(() => {
+        router.refresh();
+      });
+      router.push(`/c/${data.name}`);
     },
   });
   const form = useForm<z.infer<typeof formSchema>>({
