@@ -8,12 +8,13 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { community } from "./community";
+import { user } from "./user";
 
 export const subscription = mysqlTable(
   "subscription",
   {
     userId: varchar("userId", { length: 256 }).notNull(),
-    communityId: int("community_id"),
+    communityId: int("community_id").notNull(),
     createdAt: datetime("created_at", { fsp: 3 }).notNull(),
     updatedAt: datetime("updated_at", { fsp: 3 }).notNull(),
   },
@@ -26,5 +27,9 @@ export const subscriptionRelations = relations(subscription, ({ one }) => ({
   community: one(community, {
     fields: [subscription.communityId],
     references: [community.id],
+  }),
+  user: one(user, {
+    fields: [subscription.userId],
+    references: [user.id],
   }),
 }));
