@@ -100,6 +100,10 @@
       "import": "./dist/label.mjs",
       "types": "./dist/label.d.ts"
     },
+    "./password-input": {
+      "import": "./dist/password-input.mjs",
+      "types": "./dist/password-input.d.ts"
+    },
     "./popover": {
       "import": "./dist/popover.mjs",
       "types": "./dist/popover.d.ts"
@@ -233,6 +237,9 @@
       ],
       "hover-card": [
         "dist/hover-card.d.ts"
+      ],
+      "password-input": [
+        "dist/password-input.d.ts"
       ]
     }
   }

@@ -14,6 +14,7 @@ const client = [
   "./src/form.tsx",
   "./src/input.tsx",
   "./src/label.tsx",
+  "./src/password-input.tsx",
   "./src/popover.tsx",
   "./src/scroll-area.tsx",
   "./src/select.tsx",
