@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 
-import { CreatePostForm } from "~/modules/posts/create-post-form";
+import { Editor } from "~/modules/posts/editor";
 
 export default function CreatePostPage({
   params,
@@ -11,5 +11,5 @@ export default function CreatePostPage({
   if (!userId) {
     return null;
   }
-  return <CreatePostForm communityName={params.name} />;
+  return <Editor communityName={params.name} />;
 }
