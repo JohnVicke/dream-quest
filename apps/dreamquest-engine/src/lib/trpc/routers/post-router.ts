@@ -23,7 +23,11 @@ export const postRouter = t.router({
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      return { title: input.title, id: post.insertId };
+      return {
+        title: input.title,
+        id: post.insertId,
+        communityName: input.communityName,
+      };
     }),
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
