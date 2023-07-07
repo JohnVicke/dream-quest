@@ -82,6 +82,7 @@ export function SubscribeToggleButton({
   }
   return (
     <Button
+      size="sm"
       onClick={handleSubscribe}
       variant={isSubscribed ? "outline" : "default"}
     >
