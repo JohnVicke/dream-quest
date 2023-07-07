@@ -27,14 +27,23 @@ export const communityRouter = t.router({
         });
       }
 
-      await db.insert(schema.community).values({
-        normalizedName,
-        name: input.name,
-        type: input.type,
-        creatorId: ctx.user.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+      await db.transaction(async (trx) => {
+        const insertedCommunity = await trx.insert(schema.community).values({
+          normalizedName,
+          name: input.name,
+          type: input.type,
+          creatorId: ctx.user.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+        await trx.insert(schema.subscription).values({
+          userId: ctx.user.id,
+          communityId: parseInt(insertedCommunity.insertId, 10),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
       });
+
       return { name: input.name };
     }),
 });
