@@ -8,3 +8,4 @@ export default {
   connectionString: process.env.DRIZZLE_DATABASE_URL,
 } satisfies Config;
 
+// clean();
