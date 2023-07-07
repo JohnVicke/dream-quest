@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
@@ -23,36 +23,22 @@ export function VoteControls({
   initialVote?: Partial<Vote> | null;
   className?: string;
 }) {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const [votes, setVotes] = useState(initialVotes);
-  const [vote, setVote] = useState(initialVote);
 
   const voteMutation = trpc.vote.update.useMutation({
-    onMutate: (vote) => {
-      if (vote.value === vote?.value) {
-        if (vote.value === "up") {
-          console.log("up", votes, vote);
-          return setVotes((prev) => prev - 1);
-        }
-        if (vote.value === "down") {
-          return setVotes((prev) => prev + 1);
-        }
-      }
-
-      if (vote.value === "up") {
-        return setVotes((prev) => prev + 1);
-      }
-      if (vote.value === "down") {
-        return setVotes((prev) => prev - 1);
-      }
+    // TODO: add onMutation optimistic update for this one instead
+    onSuccess: () => {
+      startTransition(() => {
+        router.refresh();
+      });
     },
   });
 
   function handleVote(value: "up" | "down") {
     if (!isAuthed) {
-      return router.push("/sign-in");
+      return router.push("/signin");
     }
-    setVote({ value: value === vote?.value ? undefined : value });
     voteMutation.mutate({
       postId,
       value,
@@ -67,27 +53,30 @@ export function VoteControls({
       )}
     >
       <UpVoteButton
+        disabled={isPending}
         onClick={() => handleVote("up")}
-        active={vote?.value === "up"}
+        active={initialVote?.value === "up"}
       />
-      <p className="text-xs font-bold">{votes}</p>
+      <p className="text-xs font-bold">{initialVotes}</p>
       <DownVoteButton
+        disabled={isPending}
         onClick={() => handleVote("down")}
-        active={vote?.value === "down"}
+        active={initialVote?.value === "down"}
       />
     </div>
   );
 }
 
-function UpVoteButton({
-  onClick,
-  active,
-}: {
+type VoteButtonProps = {
   active: boolean;
   onClick: () => void;
-}) {
+  disabled?: boolean;
+};
+
+function UpVoteButton({ onClick, active, disabled }: VoteButtonProps) {
   return (
     <Button
+      disabled={disabled}
       className={cn("hover:text-green-500", active && "text-green-400")}
       variant="ghost"
       size="sm"
@@ -98,16 +87,11 @@ function UpVoteButton({
   );
 }
 
-function DownVoteButton({
-  onClick,
-  active,
-}: {
-  active: boolean;
-  onClick: () => void;
-}) {
+function DownVoteButton({ onClick, active, disabled }: VoteButtonProps) {
   return (
     <Button
       className={cn("hover:text-red-500", active && "text-red-400")}
+      disabled={disabled}
       variant="ghost"
       size="sm"
       onClick={onClick}
