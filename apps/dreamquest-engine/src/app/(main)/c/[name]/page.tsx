@@ -42,24 +42,26 @@ export default async function Page({ params }: { params: { name: string } }) {
     <>
       {userId === community.creatorId && (
         <Link
-          href={`/c/${community.name}/${community.id}/settings`}
+          href={`/c/${community.name}/settings`}
           className="mb-4 flex items-center gap-x-2"
         >
           <Settings className="h-4 w-4" />
           Moderator settings
         </Link>
       )}
-      <div className="flex items-center gap-x-2 rounded-lg border p-4 shadow-lg">
-        {community.avatarUrl && (
-          <Image
-            className="rounded-full"
-            src={community.avatarUrl}
-            alt="Avatar"
-            width={50}
-            height={50}
-          />
-        )}
-        <h1 className="text-2xl font-bold">{community.name}</h1>
+      <div className="flex items-center justify-between border p-4 shadow-lg">
+        <div className="flex items-center gap-x-2">
+          {community.avatarUrl && (
+            <Image
+              className="rounded-full"
+              src={community.avatarUrl}
+              alt="Avatar"
+              width={50}
+              height={50}
+            />
+          )}
+          <h1 className="text-2xl font-bold">{community.name}</h1>
+        </div>
         <ReactQueryProvider>
           <SubscribeToggleButton
             isAuthed={!!userId}
