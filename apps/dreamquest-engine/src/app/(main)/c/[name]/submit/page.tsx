@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 
-import { Editor } from "~/modules/posts/editor";
+import { Editor } from "~/modules/posts/editor/editor";
 
 export default function CreatePostPage({
   params,
