@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Dialog, DialogContent } from "@dq/ui/dialog";
 
@@ -9,16 +9,18 @@ import { ReactQueryProvider } from "~/providers/react-query-provider";
 
 export default function CreateCommunityModal() {
   const router = useRouter();
+  const pathname = usePathname();
+  const isOpen = pathname === "/c/create";
   return (
     <ReactQueryProvider>
       <Dialog
-        open
+        open={isOpen}
         onOpenChange={() => {
           router.back();
         }}
       >
         <DialogContent>
-          <CreateCommunityForm isModal />
+          <CreateCommunityForm />
         </DialogContent>
       </Dialog>
     </ReactQueryProvider>
