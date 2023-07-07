@@ -36,8 +36,6 @@ export default async function Page({ params }: { params: { name: string } }) {
       })
     : undefined;
 
-  console.log({ community });
-
   return (
     <>
       {userId === community.creatorId && (
@@ -49,7 +47,7 @@ export default async function Page({ params }: { params: { name: string } }) {
           Moderator settings
         </Link>
       )}
-      <div className="flex items-center justify-between border p-4 shadow-lg">
+      <div className="flex items-center justify-between border p-4">
         <div className="flex items-center gap-x-2">
           {community.avatarUrl && (
             <Image
@@ -82,7 +80,7 @@ export default async function Page({ params }: { params: { name: string } }) {
             />
           ))}
         </div>
-        <div className="rounded-lg border p-4 shadow-lg">
+        <div className="rounded-lg border p-4">
           <div className="flex justify-between gap-x-4">
             <dt className="text-gray-400">Created</dt>
             <dd className="font-semibold text-gray-200">
