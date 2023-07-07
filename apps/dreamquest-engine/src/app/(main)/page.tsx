@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { db, desc, schema } from "@dq/db";
 
 import { CreatePostTrigger } from "~/modules/posts/create-post-trigger";
@@ -7,12 +9,12 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 export default async function LandingPage() {
-  // TODO: only grab public communities
   const posts = await db.query.post.findMany({
     with: {
       community: true,
     },
     orderBy: desc(schema.post.createdAt),
+    limit: 10,
   });
 
   return (
@@ -20,13 +22,15 @@ export default async function LandingPage() {
       <CreatePostTrigger />
       <div className="py-4" />
       <div className="flex flex-col gap-y-2">
-        {posts.map((post) => (
-          <PostCardBasic
-            key={post.id}
-            post={post}
-            communityAvatarUrl={post.community?.avatarUrl}
-          />
-        ))}
+        <Suspense>
+          {posts.map((post) => (
+            <PostCardBasic
+              key={post.id}
+              post={post}
+              communityAvatarUrl={post.community?.avatarUrl}
+            />
+          ))}
+        </Suspense>
       </div>
     </>
   );
