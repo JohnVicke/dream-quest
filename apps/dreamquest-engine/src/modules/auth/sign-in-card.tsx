@@ -39,7 +39,7 @@ export function SignInCard({ className }: { className?: string }) {
           Not a member?{" "}
           <Link
             href="/signup"
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            className="font-semibold leading-6 text-blue-400 hover:text-blue-500"
           >
             Sign up now!
           </Link>
