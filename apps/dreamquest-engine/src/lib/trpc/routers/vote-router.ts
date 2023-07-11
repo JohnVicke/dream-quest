@@ -5,14 +5,14 @@ import { and, db, eq, schema } from "@dq/db";
 import { Timestamp } from "~/utils/timestamp";
 import { protectedProcedure, t } from "../trpc";
 
-const voteInputSchema = z.object({
-  postId: z.number(),
-  value: z.enum(["up", "down"]),
-});
-
 export const voteRouter = t.router({
   update: protectedProcedure
-    .input(voteInputSchema)
+    .input(
+      z.object({
+        postId: z.string(),
+        value: z.enum(["up", "down"]),
+      }),
+    )
     .mutation(async ({ input, ctx }) => {
       const vote = await db.query.vote.findFirst({
         where: and(

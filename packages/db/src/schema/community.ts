@@ -2,7 +2,6 @@ import { relations } from "drizzle-orm";
 import {
   mysqlEnum,
   mysqlTable,
-  serial,
   timestamp,
   uniqueIndex,
   varchar,
@@ -15,7 +14,7 @@ import { user } from "./user";
 export const community = mysqlTable(
   "community",
   {
-    id: serial("id").primaryKey(),
+    id: varchar("id", { length: 256 }).primaryKey(),
     creatorId: varchar("creator_id", { length: 256 }).notNull(),
     avatarUrl: varchar("avatar_url", { length: 256 }),
     name: varchar("name", { length: 256 }).notNull(),

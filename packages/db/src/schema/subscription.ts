@@ -1,6 +1,5 @@
 import { relations } from "drizzle-orm";
 import {
-  int,
   mysqlTable,
   primaryKey,
   timestamp,
@@ -14,7 +13,7 @@ export const subscription = mysqlTable(
   "subscription",
   {
     userId: varchar("userId", { length: 256 }).notNull(),
-    communityId: int("community_id").notNull(),
+    communityId: varchar("community_id", { length: 256 }).notNull(),
     updatedAt: timestamp("updated_at", { fsp: 3 }).notNull(),
     createdAt: timestamp("created_at", { fsp: 3 }).notNull(),
   },

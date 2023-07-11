@@ -8,7 +8,7 @@ import { protectedProcedure, t } from "../trpc";
 
 export const subscriptionRouter = t.router({
   subscribe: protectedProcedure
-    .input(z.object({ communityId: z.number() }))
+    .input(z.object({ communityId: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const subscription = await db.query.subscription.findFirst({
         where: and(
@@ -34,7 +34,7 @@ export const subscriptionRouter = t.router({
       return true;
     }),
   unsubscribe: protectedProcedure
-    .input(z.object({ communityId: z.number() }))
+    .input(z.object({ communityId: z.string() }))
     .mutation(async ({ input, ctx }) => {
       await db
         .delete(schema.subscription)

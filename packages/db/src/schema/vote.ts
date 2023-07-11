@@ -1,6 +1,5 @@
 import { relations } from "drizzle-orm";
 import {
-  int,
   mysqlEnum,
   mysqlTable,
   primaryKey,
@@ -14,7 +13,7 @@ import { user } from "./user";
 export const vote = mysqlTable(
   "vote",
   {
-    postId: int("post_id"),
+    postId: varchar("post_id", { length: 256 }).notNull(),
     creatorId: varchar("creator_id", { length: 256 }).notNull(),
     value: mysqlEnum("value", ["up", "down"]).notNull(),
     updatedAt: timestamp("updated_at", { fsp: 3 }).notNull(),

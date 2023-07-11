@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { nanoid } from "nanoid";
 import { z } from "zod";
 
 import { db, eq, schema } from "@dq/db";
@@ -30,6 +31,7 @@ export const communityRouter = t.router({
 
       await db.transaction(async (trx) => {
         const insertedCommunity = await trx.insert(schema.community).values({
+          id: nanoid(),
           normalizedName,
           name: input.name,
           type: input.type,
@@ -39,7 +41,7 @@ export const communityRouter = t.router({
         });
         await trx.insert(schema.subscription).values({
           userId: ctx.user.id,
-          communityId: parseInt(insertedCommunity.insertId, 10),
+          communityId: insertedCommunity.insertId,
           createdAt: new Timestamp(),
           updatedAt: new Timestamp(),
         });

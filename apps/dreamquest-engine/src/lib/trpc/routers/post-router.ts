@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { nanoid } from "nanoid";
 import { z } from "zod";
 
 import { db, eq, schema } from "@dq/db";
@@ -16,7 +17,9 @@ export const postRouter = t.router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const post = await db.insert(schema.post).values({
+      const id = nanoid();
+      await db.insert(schema.post).values({
+        id,
         title: input.title,
         content: JSON.stringify(input.content ?? { hello: "world" }),
         communityName: input.communityName,
@@ -25,13 +28,13 @@ export const postRouter = t.router({
         updatedAt: new Timestamp(),
       });
       return {
+        id,
         title: input.title,
-        id: post.insertId,
         communityName: input.communityName,
       };
     }),
   delete: protectedProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const post = await db.query.post.findFirst({
         where: eq(schema.post.id, input.id),

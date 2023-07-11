@@ -1,18 +1,12 @@
 import { relations } from "drizzle-orm";
-import {
-  json,
-  mysqlTable,
-  serial,
-  timestamp,
-  varchar,
-} from "drizzle-orm/mysql-core";
+import { json, mysqlTable, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 import { community } from "./community";
 import { user } from "./user";
 import { vote } from "./vote";
 
 export const post = mysqlTable("post", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 256 }).primaryKey(),
   title: varchar("title", { length: 256 }).notNull(),
   creatorId: varchar("creator_id", { length: 256 }).notNull(),
   communityName: varchar("community_name", { length: 256 }).notNull(),
