@@ -1,10 +1,6 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import type {
-  DeletedObjectJSON,
-  UserJSON,
-  WebhookEvent,
-} from "@clerk/clerk-sdk-node";
+import type { WebhookEvent } from "@clerk/clerk-sdk-node";
 import { Webhook, WebhookRequiredHeaders } from "svix";
 
 import { exhaustive } from "~/utils/exhaustive";
