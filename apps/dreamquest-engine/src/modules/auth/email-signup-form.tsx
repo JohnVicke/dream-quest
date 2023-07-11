@@ -26,6 +26,9 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Email is incorrect...",
   }),
+  username: z.string().min(3, {
+    message: "Username must be at least 3 characters long",
+  }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters long",
   }),
@@ -51,6 +54,7 @@ export function EmailSignupForm() {
         await signUp.create({
           emailAddress: values.email,
           password: values.password,
+          username: values.username,
         });
 
         await signUp.prepareEmailAddressVerification({
@@ -85,6 +89,19 @@ export function EmailSignupForm() {
               <FormLabel>Email address</FormLabel>
               <FormControl>
                 <Input placeholder="joe.doe@mail.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="coolboi1337" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
