@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Editor } from "@tiptap/react";
 
 import { cn } from "@dq/ui";
@@ -17,12 +18,13 @@ interface MenuBarButtonProps {
   disabled?: boolean;
   active?: boolean;
 }
-function MenuBarButton({
-  active,
-  ...props
-}: React.PropsWithChildren<MenuBarButtonProps>) {
+const MenuBarButton = React.forwardRef<
+  HTMLButtonElement,
+  React.PropsWithChildren<MenuBarButtonProps>
+>(({ active, ...props }, ref) => {
   return (
     <button
+      ref={ref}
       className={cn("rounded-md p-2 hover:bg-primary/10", {
         "font-semibold text-secondary-foreground": active,
         "text-secondary-foreground/50 hover:text-secondary-foreground": !active,
@@ -30,7 +32,8 @@ function MenuBarButton({
       {...props}
     />
   );
-}
+});
+
 export function EditorMenuBar({ editor }: { editor: Editor | null }) {
   if (!editor) return null;
   return (
@@ -38,13 +41,13 @@ export function EditorMenuBar({ editor }: { editor: Editor | null }) {
       <div className="flex flex-wrap bg-muted">
         {menuBarItems.map((item) => (
           <Tooltip key={item.name}>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
               <MenuBarButton
                 onClick={() => item.handleOnClick(editor)}
                 disabled={item.isDisabled?.(editor)}
                 active={item.isActive?.(editor)}
               >
-                {item.icon}
+                <item.Icon className="h-4 w-4" />
               </MenuBarButton>
             </TooltipTrigger>
             <TooltipContent>{item.tooltip}</TooltipContent>
