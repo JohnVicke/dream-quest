@@ -6,6 +6,7 @@ import {
   Italic,
   List,
   ListOrdered,
+  LucideIcon,
   Redo2,
   SplitSquareVertical,
   Strikethrough,
@@ -29,17 +30,17 @@ type EditorAction =
 
 interface MenuBarItem {
   name: EditorAction;
-  icon: React.ReactNode;
+  Icon: LucideIcon;
+  tooltip: string;
   handleOnClick: (editor: Editor) => void;
   isDisabled?: (editor: Editor) => boolean;
   isActive?: (editor: Editor) => boolean;
   active?: boolean;
-  tooltip: string;
 }
 export const menuBarItems: MenuBarItem[] = [
   {
     name: "bold",
-    icon: <Bold className="h-4 w-4" />,
+    Icon: Bold,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().toggleBold().run(),
     isDisabled: (editor: Editor) =>
@@ -49,7 +50,7 @@ export const menuBarItems: MenuBarItem[] = [
   },
   {
     name: "italic",
-    icon: <Italic className="h-4 w-4" />,
+    Icon: Italic,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().toggleItalic().run(),
     isDisabled: (editor: Editor) =>
@@ -59,7 +60,7 @@ export const menuBarItems: MenuBarItem[] = [
   },
   {
     name: "strike",
-    icon: <Strikethrough className="h-4 w-4" />,
+    Icon: Strikethrough,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().toggleStrike().run(),
     isDisabled: (editor: Editor) =>
@@ -69,7 +70,7 @@ export const menuBarItems: MenuBarItem[] = [
   },
   {
     name: "code",
-    icon: <Code className="h-4 w-4" />,
+    Icon: Code,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().toggleCode().run(),
     isDisabled: (editor: Editor) =>
@@ -79,17 +80,17 @@ export const menuBarItems: MenuBarItem[] = [
   },
   {
     name: "heading",
-    icon: <Heading className="h-4 w-4" />,
+    Icon: Heading,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().toggleHeading({ level: 1 }).run(),
     isDisabled: (editor: Editor) =>
-      !editor.can().chain().focus().toggleHeading({ level: 1 }).run(),
-    isActive: (editor: Editor) => editor.isActive("heading", { level: 1 }),
+      !editor.can().chain().focus().toggleHeading({ level: 3 }).run(),
+    isActive: (editor: Editor) => editor.isActive("heading", { level: 3 }),
     tooltip: "Heading",
   },
   {
     name: "blockquote",
-    icon: <TextQuote className="h-4 w-4" />,
+    Icon: TextQuote,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().toggleBlockquote().run(),
     isDisabled: (editor: Editor) =>
@@ -99,7 +100,7 @@ export const menuBarItems: MenuBarItem[] = [
   },
   {
     name: "bulletList",
-    icon: <List className="h-4 w-4" />,
+    Icon: List,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().toggleBulletList().run(),
     isDisabled: (editor: Editor) =>
@@ -109,7 +110,7 @@ export const menuBarItems: MenuBarItem[] = [
   },
   {
     name: "orderedList",
-    icon: <ListOrdered className="h-4 w-4" />,
+    Icon: ListOrdered,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().toggleOrderedList().run(),
     isDisabled: (editor: Editor) =>
@@ -119,21 +120,21 @@ export const menuBarItems: MenuBarItem[] = [
   },
   {
     name: "hr",
-    icon: <SplitSquareVertical className="h-4 w-4" />,
+    Icon: SplitSquareVertical,
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().setHorizontalRule().run(),
     tooltip: "Horizontal Rule",
   },
   {
     name: "undo",
-    icon: <Undo2 className="h-4 w-4" />,
+    Icon: Undo2,
     handleOnClick: (editor: Editor) => editor.chain().focus().undo().run(),
     isDisabled: (editor: Editor) => !editor.can().chain().focus().undo().run(),
     tooltip: "Undo",
   },
   {
     name: "redo",
-    icon: <Redo2 className="h-4 w-4" />,
+    Icon: Redo2,
     handleOnClick: (editor: Editor) => editor.chain().focus().redo().run(),
 
     isDisabled: (editor: Editor) => !editor.can().chain().focus().redo().run(),
