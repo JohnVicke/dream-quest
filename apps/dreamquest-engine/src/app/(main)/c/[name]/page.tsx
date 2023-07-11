@@ -68,7 +68,7 @@ export default async function Page({ params }: { params: { name: string } }) {
           />
         </ReactQueryProvider>
       </div>
-      <div className="mt-8 grid grid-cols-[1fr,20rem] gap-4">
+      <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-[1fr,20rem]">
         <div className="flex flex-col gap-y-4">
           <CreatePostTrigger communityName={params.name} />
           {community.posts?.map((post) => (
