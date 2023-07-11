@@ -1,6 +1,4 @@
 export function getTimeSincePosted(createdAt: Date, now = new Date()) {
-  console.log({ createdAt });
-  console.log({ locale: createdAt.toLocaleTimeString() });
   if (now.getTime() - createdAt.getTime() < 1000 * 60) {
     return "just now";
   }
