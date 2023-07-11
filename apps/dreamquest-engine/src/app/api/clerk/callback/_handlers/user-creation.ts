@@ -6,6 +6,9 @@ import { db, schema } from "@dq/db";
 import { Timestamp } from "~/utils/timestamp";
 
 export async function handleUserCreation(user: UserJSON) {
+  if (!user.username) {
+    return new NextResponse("Not a user", { status: 409 });
+  }
   try {
     await db.insert(schema.user).values({
       id: user.id,
