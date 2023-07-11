@@ -1,4 +1,4 @@
-import { TopNavigation } from "./_top-nav";
+import { TopNavigation } from "./top-nav";
 
 export default function MainLayout(props: React.PropsWithChildren) {
   return (
