@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs";
 import format from "date-fns/format";
 import { Settings } from "lucide-react";
 
-import { and, db, eq, schema } from "@dq/db";
+import { and, db, eq, Post, schema } from "@dq/db";
 
 import { SubscribeToggleButton } from "~/modules/community/subscribe-toggle-button";
 import { CreatePostTrigger } from "~/modules/posts/create-post-trigger";
@@ -68,38 +68,72 @@ export default async function Page({ params }: { params: { name: string } }) {
           />
         </ReactQueryProvider>
       </div>
-      <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-[1fr,20rem]">
-        <div className="flex flex-col gap-y-4">
-          <CreatePostTrigger communityName={params.name} />
-          {community.posts?.map((post) => (
-            <PostCardBasic
-              hideSubreddit
-              key={post.id}
-              post={post}
-              communityAvatarUrl={community.avatarUrl}
-            />
-          ))}
+      <div className="mt-8 grid grid-cols-7 gap-4">
+        <div className="col-span-full md:col-span-5">
+          <CommunityFeed
+            posts={community.posts}
+            avatarUrl={community.avatarUrl}
+            name={community.name}
+          />
         </div>
-        <div className="rounded-lg border p-4">
-          <div className="flex justify-between gap-x-4">
-            <dt className="text-gray-400">Created</dt>
-            <dd className="font-semibold text-gray-200">
-              <time dateTime={community.createdAt.toDateString()}>
-                {format(community.createdAt, "MMMM d, yyyy")}
-              </time>
-            </dd>
-          </div>
-          <div className="my-4 border border-b" />
-          <div className="flex">
-            <div className="flex flex-col-reverse items-center">
-              <dt className="text-xs text-gray-400">Members</dt>
-              <dd className="text-lg font-semibold text-gray-200">
-                {community.subscriptions?.length}
-              </dd>
-            </div>
-          </div>
-        </div>
+        <aside className="sticky top-16 hidden self-start md:col-span-2 md:block">
+          <AboutCommunity
+            createdAt={community.createdAt}
+            nrSubscriptions={community.subscriptions.length}
+          />
+        </aside>
       </div>
     </>
+  );
+}
+
+interface CommunityFeedProps {
+  posts: Post[];
+  name: string;
+  avatarUrl?: string | null;
+}
+
+function CommunityFeed({ posts, avatarUrl, name }: CommunityFeedProps) {
+  return (
+    <div className="flex flex-col gap-y-4">
+      <CreatePostTrigger communityName={name} />
+      <div className="flex flex-col gap-y-4">
+        {posts?.map((post) => (
+          <PostCardBasic
+            hideSubreddit
+            key={post.id}
+            post={post}
+            communityAvatarUrl={avatarUrl}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+interface AboutCommunityProps {
+  createdAt: Date;
+  nrSubscriptions: number;
+}
+
+function AboutCommunity({ createdAt, nrSubscriptions }: AboutCommunityProps) {
+  return (
+    <div className="rounded-md border p-4">
+      <div className="flex justify-between gap-x-4">
+        <dt className="text-muted-foreground">Created</dt>
+        <dd className="font-semibold text-muted-foreground">
+          <time dateTime={createdAt.toDateString()}>
+            {format(createdAt, "MMMM d, yyyy")}
+          </time>
+        </dd>
+      </div>
+      <div className="my-4 border border-b" />
+      <div className="flex">
+        <div className="flex flex-col-reverse items-center">
+          <dt className="text-xs text-muted-foreground">Members</dt>
+          <dd className="text-lg font-semibold">{nrSubscriptions}</dd>
+        </div>
+      </div>
+    </div>
   );
 }
