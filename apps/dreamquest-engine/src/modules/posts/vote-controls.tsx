@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowBigDownDash, ArrowBigUpDash } from "lucide-react";
 
 import { Vote } from "@dq/db";
 import { cn } from "@dq/ui";
@@ -16,11 +16,13 @@ export function VoteControls({
   postId,
   initialVote,
   isAuthed,
+  direction = "column",
 }: {
   initialVotes: number;
   postId: number;
   isAuthed?: boolean;
   initialVote?: Partial<Vote> | null;
+  direction?: "row" | "column";
   className?: string;
 }) {
   const [isPending, startTransition] = useTransition();
@@ -48,7 +50,10 @@ export function VoteControls({
   return (
     <div
       className={cn(
-        "flex w-10 flex-col items-center justify-center space-y-2 bg-muted",
+        "flex items-center justify-center border-r",
+        direction === "row"
+          ? "w-fit flex-row space-x-4 rounded-md border"
+          : "w-10 flex-col space-y-2 border-r",
         className,
       )}
     >
@@ -82,7 +87,7 @@ function UpVoteButton({ onClick, active, disabled }: VoteButtonProps) {
       size="sm"
       onClick={onClick}
     >
-      <ChevronUp className="h-4 w-4" />
+      <ArrowBigUpDash className="h-4 w-4" />
     </Button>
   );
 }
@@ -96,7 +101,7 @@ function DownVoteButton({ onClick, active, disabled }: VoteButtonProps) {
       size="sm"
       onClick={onClick}
     >
-      <ChevronDown className="h-4 w-4" />
+      <ArrowBigDownDash className="h-4 w-4" />
     </Button>
   );
 }
