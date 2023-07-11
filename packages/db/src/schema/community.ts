@@ -1,9 +1,9 @@
 import { relations } from "drizzle-orm";
 import {
-  datetime,
   mysqlEnum,
   mysqlTable,
   serial,
+  timestamp,
   uniqueIndex,
   varchar,
 } from "drizzle-orm/mysql-core";
@@ -21,8 +21,8 @@ export const community = mysqlTable(
     name: varchar("name", { length: 256 }).notNull(),
     normalizedName: varchar("normalized_name", { length: 256 }).notNull(),
     type: mysqlEnum("type", ["public", "private", "restricted"]).notNull(),
-    createdAt: datetime("created_at", { fsp: 3 }).notNull(),
-    updatedAt: datetime("updated_at", { fsp: 3 }).notNull(),
+    updatedAt: timestamp("updated_at", { fsp: 3 }).notNull(),
+    createdAt: timestamp("created_at", { fsp: 3 }).notNull(),
   },
   (table) => ({
     nameIdx: uniqueIndex("name_idx").on(table.name),
