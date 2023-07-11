@@ -38,9 +38,8 @@ export function CreateCommunityForm() {
         description: "Your community has been created.",
       });
       startTransition(() => {
-        router.refresh();
+        router.push(`/c/${data.name}`);
       });
-      router.push(`/c/${data.name}`);
     },
   });
   const form = useForm<z.infer<typeof formSchema>>({
