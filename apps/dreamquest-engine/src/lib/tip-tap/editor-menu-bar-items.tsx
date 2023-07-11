@@ -24,11 +24,9 @@ type EditorAction =
   | "codeBlock"
   | "orderedList"
   | "blockquote"
-  | "hr"
-  | "undo"
-  | "redo";
+  | "hr";
 
-interface MenuBarItem {
+export interface MenuBarItem {
   name: EditorAction;
   Icon: LucideIcon;
   tooltip: string;
@@ -37,6 +35,7 @@ interface MenuBarItem {
   isActive?: (editor: Editor) => boolean;
   active?: boolean;
 }
+
 export const menuBarItems: MenuBarItem[] = [
   {
     name: "bold",
@@ -124,20 +123,5 @@ export const menuBarItems: MenuBarItem[] = [
     handleOnClick: (editor: Editor) =>
       editor.chain().focus().setHorizontalRule().run(),
     tooltip: "Horizontal Rule",
-  },
-  {
-    name: "undo",
-    Icon: Undo2,
-    handleOnClick: (editor: Editor) => editor.chain().focus().undo().run(),
-    isDisabled: (editor: Editor) => !editor.can().chain().focus().undo().run(),
-    tooltip: "Undo",
-  },
-  {
-    name: "redo",
-    Icon: Redo2,
-    handleOnClick: (editor: Editor) => editor.chain().focus().redo().run(),
-
-    isDisabled: (editor: Editor) => !editor.can().chain().focus().redo().run(),
-    tooltip: "Redo",
   },
 ];
