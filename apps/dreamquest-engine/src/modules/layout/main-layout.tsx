@@ -4,7 +4,7 @@ export default function MainLayout(props: React.PropsWithChildren) {
   return (
     <>
       <TopNavigation />
-      <main className=" pt-16">{props.children}</main>
+      <main className="pt-4">{props.children}</main>
     </>
   );
 }

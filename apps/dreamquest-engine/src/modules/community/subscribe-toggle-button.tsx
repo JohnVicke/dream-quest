@@ -10,7 +10,7 @@ import { useToast } from "@dq/ui/use-toast";
 import { trpc } from "~/lib/trpc/client";
 
 interface SubscribeButtonProps {
-  communityId: number;
+  communityId: string;
   isAuthed?: boolean;
   initialIsSubscribed?: boolean;
 }

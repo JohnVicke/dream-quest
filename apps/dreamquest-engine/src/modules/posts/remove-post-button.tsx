@@ -9,7 +9,7 @@ import { useToast } from "@dq/ui/use-toast";
 
 import { trpc } from "~/lib/trpc/client";
 
-export function RemovePostButton({ id }: { id: number }) {
+export function RemovePostButton({ id }: { id: string }) {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();

@@ -8,69 +8,72 @@ import { Vote } from "@dq/db";
 import { cn } from "@dq/ui";
 import { Button } from "@dq/ui/button";
 
+import { withTrpc } from "~/components/with-trpc";
 import { trpc } from "~/lib/trpc/client";
 
-export function VoteControls({
-  initialVotes,
-  className,
-  postId,
-  initialVote,
-  isAuthed,
-  direction = "column",
-}: {
-  initialVotes: number;
-  postId: number;
-  isAuthed?: boolean;
-  initialVote?: Partial<Vote> | null;
-  direction?: "row" | "column";
-  className?: string;
-}) {
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
+export const VoteControls = withTrpc(
+  ({
+    initialVotes,
+    className,
+    postId,
+    initialVote,
+    isAuthed,
+    direction = "column",
+  }: {
+    initialVotes: number;
+    postId: string;
+    isAuthed?: boolean;
+    initialVote?: Partial<Vote> | null;
+    direction?: "row" | "column";
+    className?: string;
+  }) => {
+    const [isPending, startTransition] = useTransition();
+    const router = useRouter();
 
-  const voteMutation = trpc.vote.update.useMutation({
-    // TODO: add onMutation optimistic update for this one instead
-    onSuccess: () => {
-      startTransition(() => {
-        router.refresh();
-      });
-    },
-  });
-
-  function handleVote(value: "up" | "down") {
-    if (!isAuthed) {
-      return router.push("/signin");
-    }
-    voteMutation.mutate({
-      postId,
-      value,
+    const voteMutation = trpc.vote.update.useMutation({
+      // TODO: add onMutation optimistic update for this one instead
+      onSuccess: () => {
+        startTransition(() => {
+          router.refresh();
+        });
+      },
     });
-  }
 
-  return (
-    <div
-      className={cn(
-        "flex items-center justify-center border-r",
-        direction === "row"
-          ? "w-fit flex-row space-x-4 rounded-md border"
-          : "w-10 flex-col space-y-2 border-r",
-        className,
-      )}
-    >
-      <UpVoteButton
-        disabled={isPending}
-        onClick={() => handleVote("up")}
-        active={initialVote?.value === "up"}
-      />
-      <p className="text-xs font-bold">{initialVotes}</p>
-      <DownVoteButton
-        disabled={isPending}
-        onClick={() => handleVote("down")}
-        active={initialVote?.value === "down"}
-      />
-    </div>
-  );
-}
+    function handleVote(value: "up" | "down") {
+      if (!isAuthed) {
+        return router.push("/signin");
+      }
+      voteMutation.mutate({
+        postId,
+        value,
+      });
+    }
+
+    return (
+      <div
+        className={cn(
+          "flex items-center justify-center border-r",
+          direction === "row"
+            ? "w-fit flex-row space-x-4 rounded-md border"
+            : "w-10 flex-col space-y-2 border-r",
+          className,
+        )}
+      >
+        <UpVoteButton
+          disabled={isPending}
+          onClick={() => handleVote("up")}
+          active={initialVote?.value === "up"}
+        />
+        <p className="text-xs font-bold">{initialVotes}</p>
+        <DownVoteButton
+          disabled={isPending}
+          onClick={() => handleVote("down")}
+          active={initialVote?.value === "down"}
+        />
+      </div>
+    );
+  },
+);
 
 type VoteButtonProps = {
   active: boolean;

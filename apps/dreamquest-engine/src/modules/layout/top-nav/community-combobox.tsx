@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Check, ChevronsUpDown, Home, Plus } from "lucide-react";
+import { ArrowBigRight, Check, ChevronsUpDown, Home, Plus } from "lucide-react";
 
 import { Community } from "@dq/db";
 import { cn } from "@dq/ui";
@@ -14,6 +14,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandSeparator,
 } from "@dq/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@dq/ui/popover";
 
@@ -59,9 +60,15 @@ export function CommunityCombobox({ communities }: CommunityComboboxProps) {
             Create community
           </Link>
           <CommandEmpty>No communities found..</CommandEmpty>
+          <CommandSeparator />
           <CommandGroup>
             {communities.map((community) => (
-              <Link href={`/c/${community.name}`} key={community.id} passHref>
+              <Link
+                href={`/c/${community.name}`}
+                key={community.id}
+                passHref
+                className="group"
+              >
                 <CommandItem>
                   <Check
                     className={cn(
@@ -72,6 +79,9 @@ export function CommunityCombobox({ communities }: CommunityComboboxProps) {
                     )}
                   />
                   {community.name}
+                  {communityName !== community.name && (
+                    <ArrowBigRight className="ml-auto h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
+                  )}
                 </CommandItem>
               </Link>
             ))}

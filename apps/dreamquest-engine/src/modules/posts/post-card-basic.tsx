@@ -4,7 +4,6 @@ import { auth, clerkClient } from "@clerk/nextjs";
 import { and, db, eq, Post, schema, sql } from "@dq/db";
 
 import { getTimeSincePosted } from "~/utils/get-time-since-posted";
-import { ReactQueryProvider } from "~/providers/react-query-provider";
 import { HoverSubReddit } from "./hover-subredit";
 import { VoteControls } from "./vote-controls";
 
@@ -51,15 +50,13 @@ export async function PostCardBasic({
       >
         <span className="hidden">{post.title}</span>
       </Link>
-      <ReactQueryProvider>
-        <VoteControls
-          className="z-10"
-          initialVotes={votes[0].votes ?? 0}
-          initialVote={sessionVote}
-          isAuthed={!!sessionUser.userId}
-          postId={post.id}
-        />
-      </ReactQueryProvider>
+      <VoteControls
+        className="z-10"
+        initialVotes={votes[0].votes ?? 0}
+        initialVote={sessionVote}
+        isAuthed={!!sessionUser.userId}
+        postId={post.id}
+      />
       <div className="flex flex-col p-4">
         <div className="flex items-end gap-x-2 [&>a]:z-10">
           {!hideSubreddit && (

@@ -10,6 +10,7 @@ import { z } from "zod";
 import "~/styles/editor.css";
 
 import { useRouter } from "next/navigation";
+import { Loader2, Save, Send } from "lucide-react";
 
 import { Community } from "@dq/db";
 import { cn } from "@dq/ui";
@@ -207,7 +208,18 @@ export function Editor(props: EditorProps) {
           </kbd>{" "}
           to open the command menu.
         </p>
-        <Button type="submit">Submit</Button>
+        <Button disabled={create.isLoading} type="submit">
+          {create.isLoading ? (
+            <Loader2
+              className="mr-2 h-4 w-4 animate-spin"
+              size={16}
+              aria-hidden="true"
+            />
+          ) : (
+            <Send className="mr-2 h-4 w-4" />
+          )}
+          Submit
+        </Button>
       </form>
     </Form>
   );

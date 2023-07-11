@@ -44,6 +44,8 @@ export function EmailSignupForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      username: "",
+      password: "",
     },
   });
 
