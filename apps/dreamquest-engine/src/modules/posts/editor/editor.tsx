@@ -1,36 +1,36 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { z } from "zod";
 
 import "~/styles/editor.css";
 
+import { Loader2, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Loader2, Save, Send } from "lucide-react";
 
 import { Community } from "@dq/db";
 import { cn } from "@dq/ui";
 import { Button } from "@dq/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@dq/ui/select";
 import { useToast } from "@dq/ui/use-toast";
 
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "~/components/form";
 import { trpc } from "~/lib/trpc/client";
 

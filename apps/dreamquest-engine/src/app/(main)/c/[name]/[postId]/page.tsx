@@ -7,6 +7,7 @@ import { auth } from "@clerk/nextjs";
 import { and, db, eq, schema, sql } from "@dq/db";
 
 import { getTimeSincePosted } from "~/utils/get-time-since-posted";
+import { CommentSection } from "~/modules/posts/comments/comment-section";
 import { PostDisplay } from "~/modules/posts/post-display";
 import { RemovePostButton } from "~/modules/posts/remove-post-button";
 import { ShareButton } from "~/modules/posts/share-button";
@@ -55,6 +56,7 @@ export default async function CommunityPostPage({
     return notFound();
   }
 
+  // TODO: refactor vote logic into its own server component and use suspense
   const sessionVote = userId
     ? await db.query.vote.findFirst({
         where: and(
@@ -103,9 +105,10 @@ export default async function CommunityPostPage({
           </ReactQueryProvider>
         )}
       </div>
-      <div className="my-4" />
-      <div className="rounded-md bg-muted p-4">
+      <div className="my-2" />
+      <div className="rounded-md p-4">
         <PostDisplay title={post.title} content={post.content as any} />
+        <div className="my-4" />
         <div className="flex items-center gap-x-4">
           <VoteControls
             direction="row"
@@ -116,6 +119,8 @@ export default async function CommunityPostPage({
           />
           <ShareButton />
         </div>
+        <div className="my-8" />
+        <CommentSection postId={post.id} />
       </div>
     </div>
   );
