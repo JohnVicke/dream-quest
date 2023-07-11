@@ -25,13 +25,12 @@ export default function SignUp() {
           >
             <div className="w-full border border-t" />
           </div>
-          <div className="relative flex justify-center text-sm font-medium leading-6">
+          <div className="relative my-2 flex justify-center text-sm font-medium leading-6">
             <span className="bg-background px-6 text-muted-foreground">
               Or continue with
             </span>
           </div>
         </div>
-        <div className="mt-6" />
         <OauthSigninForm />
       </CardContent>
     </Card>
