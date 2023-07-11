@@ -47,8 +47,9 @@ const MENU_ITEM_WIDTH = 32;
 
 export function TipTapMenuBar({ children }: React.PropsWithChildren) {
   const editor = useTipTapEditor();
-  const [dropdownMenuitems, setDropDownMenuItems] =
-    React.useState<Array<MenuBarItem>>(menuBarItems);
+  const [dropdownMenuitems, setDropDownMenuItems] = React.useState<
+    Array<MenuBarItem>
+  >([]);
   const [visibleMenuItems, setVisibleMenuItems] =
     React.useState<Array<MenuBarItem>>(menuBarItems);
   const navRef = React.useRef<HTMLDivElement>(null);
