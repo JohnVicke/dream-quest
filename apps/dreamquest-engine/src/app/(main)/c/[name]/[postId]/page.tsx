@@ -1,12 +1,16 @@
 import { cache } from "react";
 import { Metadata, ResolvingMetadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 
-import { db, eq, schema } from "@dq/db";
+import { and, db, eq, schema, sql } from "@dq/db";
 
+import { getTimeSincePosted } from "~/utils/get-time-since-posted";
+import { DateTime } from "~/components/date-time";
 import { PostDisplay } from "~/modules/posts/post-display";
 import { RemovePostButton } from "~/modules/posts/remove-post-button";
+import { VoteControls } from "~/modules/posts/vote-controls";
 import { ReactQueryProvider } from "~/providers/react-query-provider";
 
 interface CommunityPostPageProps {
@@ -19,8 +23,8 @@ const selectPost = cache(async (id: number) => {
   return db.query.post.findFirst({
     where: eq(schema.post.id, id),
     with: {
-      votes: true,
       creator: true,
+      community: true,
     },
   });
 });
@@ -51,9 +55,55 @@ export default async function CommunityPostPage({
     return notFound();
   }
 
+  const sessionVote = userId
+    ? await db.query.vote.findFirst({
+        where: and(
+          eq(schema.vote.postId, post.id),
+          eq(schema.vote.creatorId, userId),
+        ),
+      })
+    : null;
+
+  const votes = await db
+    .select({
+      votes: sql<number>`sum(case 
+                             when ${schema.vote.value} = 'up' then 1
+                             when ${schema.vote.value} = 'down' then -1
+                         else 0 end)`,
+    })
+    .from(schema.vote)
+    .where(eq(schema.vote.postId, post.id));
+
   return (
     <div>
+      <div className="flex items-center gap-x-2">
+        {post.community?.avatarUrl && (
+          <Image
+            className="rounded-full"
+            src={post.community.avatarUrl}
+            alt="Avatar"
+            width={50}
+            height={50}
+          />
+        )}
+        <h4 className="text-sm font-semibold text-muted-foreground">
+          c/{post.community?.name} •{" "}
+          <time>{getTimeSincePosted(post.createdAt)}</time>
+        </h4>
+      </div>
+      <p className="flex items-center text-xs">
+        Posted by {post.creator?.username}
+      </p>
       <PostDisplay title={post.title} content={post.content as any} />
+      <ReactQueryProvider>
+        <VoteControls
+          direction="row"
+          initialVotes={votes[0].votes ?? 0}
+          postId={post.id}
+          isAuthed={!!userId}
+          initialVote={sessionVote}
+        />
+      </ReactQueryProvider>
       {userId === post.creatorId && (
         <ReactQueryProvider>
           <RemovePostButton id={post.id} />
