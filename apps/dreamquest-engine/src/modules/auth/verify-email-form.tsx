@@ -53,7 +53,7 @@ export function VerifyEmailForm() {
         }
 
         await setActive({ session: completeSignUp.createdSessionId });
-        router.push(`${window.location.origin}/`);
+        return router.push(`${window.location.origin}/`);
       } catch (e) {
         const defaultError = "Something went wrong, please try again later...";
         toast({
