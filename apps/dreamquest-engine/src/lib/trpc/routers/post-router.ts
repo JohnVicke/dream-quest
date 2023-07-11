@@ -3,25 +3,26 @@ import { z } from "zod";
 
 import { db, eq, schema } from "@dq/db";
 
+import { Timestamp } from "~/utils/timestamp";
 import { protectedProcedure, t } from "../trpc";
-
-const insertCommunitySchema = z.object({
-  title: z.string().min(1).max(255),
-  communityName: z.string(),
-  content: z.any(),
-});
 
 export const postRouter = t.router({
   create: protectedProcedure
-    .input(insertCommunitySchema)
+    .input(
+      z.object({
+        title: z.string().min(1).max(255),
+        communityName: z.string(),
+        content: z.any(),
+      }),
+    )
     .mutation(async ({ input, ctx }) => {
       const post = await db.insert(schema.post).values({
         title: input.title,
         content: JSON.stringify(input.content ?? { hello: "world" }),
         communityName: input.communityName,
         creatorId: ctx.user.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Timestamp(),
+        updatedAt: new Timestamp(),
       });
       return {
         title: input.title,

@@ -3,15 +3,12 @@ import { z } from "zod";
 
 import { and, db, eq, schema } from "@dq/db";
 
+import { Timestamp } from "~/utils/timestamp";
 import { protectedProcedure, t } from "../trpc";
-
-const voteInputSchema = z.object({
-  communityId: z.number(),
-});
 
 export const subscriptionRouter = t.router({
   subscribe: protectedProcedure
-    .input(voteInputSchema)
+    .input(z.object({ communityId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const subscription = await db.query.subscription.findFirst({
         where: and(
@@ -30,14 +27,14 @@ export const subscriptionRouter = t.router({
       await db.insert(schema.subscription).values({
         communityId: input.communityId,
         userId: ctx.user.id,
-        updatedAt: new Date(),
-        createdAt: new Date(),
+        updatedAt: new Timestamp(),
+        createdAt: new Timestamp(),
       });
 
       return true;
     }),
   unsubscribe: protectedProcedure
-    .input(voteInputSchema)
+    .input(z.object({ communityId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       await db
         .delete(schema.subscription)

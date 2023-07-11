@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { and, db, eq, schema } from "@dq/db";
 
+import { Timestamp } from "~/utils/timestamp";
 import { protectedProcedure, t } from "../trpc";
 
 const voteInputSchema = z.object({
@@ -25,7 +26,8 @@ export const voteRouter = t.router({
           creatorId: ctx.user.id,
           postId: input.postId,
           value: input.value,
-          updatedAt: new Date(),
+          updatedAt: new Timestamp(),
+          createdAt: new Timestamp(),
         });
         return true;
       }

@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { db, eq, schema } from "@dq/db";
 
+import { Timestamp } from "~/utils/timestamp";
 import { protectedProcedure, t } from "../trpc";
 
 const insertCommunitySchema = z.object({
@@ -33,14 +34,14 @@ export const communityRouter = t.router({
           name: input.name,
           type: input.type,
           creatorId: ctx.user.id,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: new Timestamp(),
+          updatedAt: new Timestamp(),
         });
         await trx.insert(schema.subscription).values({
           userId: ctx.user.id,
           communityId: parseInt(insertedCommunity.insertId, 10),
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: new Timestamp(),
+          updatedAt: new Timestamp(),
         });
       });
 
