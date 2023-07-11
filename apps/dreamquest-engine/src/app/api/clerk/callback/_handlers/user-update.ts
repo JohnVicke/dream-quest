@@ -9,6 +9,7 @@ export async function handleUserUpdate(user: UserJSON) {
       .update(schema.user)
       .set({
         profileImageUrl: user.profile_image_url,
+        updatedAt: new Date(),
       })
       .where(eq(schema.user.id, user.id));
   } catch (error) {
