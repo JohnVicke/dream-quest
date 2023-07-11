@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Editor } from "@tiptap/react";
 
 import { cn } from "@dq/ui";
 import {
@@ -11,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@dq/ui/tooltip";
 
+import { useTipTapEditor } from "./editor";
 import { menuBarItems } from "./editor-menu-bar-items";
 
 interface MenuBarButtonProps {
@@ -21,20 +21,23 @@ interface MenuBarButtonProps {
 const MenuBarButton = React.forwardRef<
   HTMLButtonElement,
   React.PropsWithChildren<MenuBarButtonProps>
->(({ active, ...props }, ref) => {
+>(({ active, disabled, ...props }, ref) => {
   return (
     <button
       ref={ref}
       className={cn("rounded-md p-2 hover:bg-primary/10", {
-        "font-semibold text-secondary-foreground": active,
+        "bg-primary/5 text-secondary-foreground": active,
         "text-secondary-foreground/50 hover:text-secondary-foreground": !active,
+        "text-secondary-foreground/20": disabled,
       })}
       {...props}
+      disabled={disabled}
     />
   );
 });
 
-export function EditorMenuBar({ editor }: { editor: Editor | null }) {
+export function TipTapMenuBar({ children }: React.PropsWithChildren) {
+  const editor = useTipTapEditor();
   if (!editor) return null;
   return (
     <TooltipProvider>
@@ -53,6 +56,7 @@ export function EditorMenuBar({ editor }: { editor: Editor | null }) {
             <TooltipContent>{item.tooltip}</TooltipContent>
           </Tooltip>
         ))}
+        {children}
       </div>
     </TooltipProvider>
   );

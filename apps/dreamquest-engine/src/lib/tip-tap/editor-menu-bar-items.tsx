@@ -82,7 +82,7 @@ export const menuBarItems: MenuBarItem[] = [
     name: "heading",
     Icon: Heading,
     handleOnClick: (editor: Editor) =>
-      editor.chain().focus().toggleHeading({ level: 1 }).run(),
+      editor.chain().focus().toggleHeading({ level: 3 }).run(),
     isDisabled: (editor: Editor) =>
       !editor.can().chain().focus().toggleHeading({ level: 3 }).run(),
     isActive: (editor: Editor) => editor.isActive("heading", { level: 3 }),
