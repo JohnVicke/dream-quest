@@ -5,6 +5,7 @@ import { db } from "@dq/db";
 
 import { AuthNavContent } from "./auth-nav-content";
 import { CommunityCombobox } from "./community-combobox";
+import { MobileDropdown } from "./mobile-drowdown";
 
 const ThemeToggleSelect = dynamic(() => import("./theme-toggle-select"), {
   ssr: false,
@@ -24,7 +25,10 @@ export async function TopNavigation() {
         </Link>
         <CommunityCombobox communities={communities} />
       </nav>
-      <div className="flex gap-x-2">
+      <div className="block sm:hidden">
+        <MobileDropdown />
+      </div>
+      <div className="hidden gap-x-2 sm:flex">
         <ThemeToggleSelect />
         <AuthNavContent />
       </div>
