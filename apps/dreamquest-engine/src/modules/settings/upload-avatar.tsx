@@ -15,7 +15,7 @@ export function UploadAvatar({
   communityId,
   avatarUrl,
 }: {
-  communityId: number;
+  communityId: string;
   avatarUrl?: string;
 }) {
   const { toast } = useToast();
