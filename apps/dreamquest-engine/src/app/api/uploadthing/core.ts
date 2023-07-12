@@ -8,7 +8,7 @@ const f = createUploadthing();
 
 export const fileRouter = {
   communityAvatar: f({ image: { maxFileSize: "4MB" } })
-    .input(z.object({ communityId: z.number() }))
+    .input(z.object({ communityId: z.string() }))
     .middleware(async ({ req, input: { communityId } }) => {
       const { userId } = getAuth(req);
       if (!userId) throw new Error("Unauthorized");
