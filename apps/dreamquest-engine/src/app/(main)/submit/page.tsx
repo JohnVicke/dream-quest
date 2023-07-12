@@ -11,13 +11,23 @@ export default async function SubmitPage() {
     return null;
   }
 
-  const communities = await db.query.community.findMany({
-    with: {
-      subscriptions: {
-        where: eq(schema.subscription.userId, userId),
-      },
-    },
-  });
+  const communities = await db
+    .select()
+    .from(schema.community)
+    .innerJoin(
+      schema.subscriptionsToCommunities,
+      eq(schema.subscriptionsToCommunities.communityId, schema.community.id),
+    )
+    .innerJoin(
+      schema.subscription,
+      eq(
+        schema.subscription.id,
+        schema.subscriptionsToCommunities.subscriptionId,
+      ),
+    )
+    .where(eq(schema.subscription.userId, userId));
 
-  return <CreatePostForm communities={communities} />;
+  const test = communities.map((community) => community.community);
+
+  return <CreatePostForm communities={test} />;
 }
