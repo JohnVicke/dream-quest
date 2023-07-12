@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs";
 import format from "date-fns/format";
 import { Settings } from "lucide-react";
 
-import { and, db, eq, Post, schema } from "@dq/db";
+import { db, eq, Post, schema, User } from "@dq/db";
 
 import { SubscribeToggleButton } from "~/modules/community/subscribe-toggle-button";
 import { CreatePostTrigger } from "~/modules/posts/create-post-trigger";
@@ -18,7 +18,11 @@ export default async function Page({ params }: { params: { name: string } }) {
   const community = await db.query.community.findFirst({
     where: eq(schema.community.name, params.name),
     with: {
-      posts: true,
+      posts: {
+        with: {
+          creator: true,
+        },
+      },
       subscriptions: true,
     },
   });
@@ -27,14 +31,21 @@ export default async function Page({ params }: { params: { name: string } }) {
     return notFound();
   }
 
-  const isSubscribed = userId
-    ? await db.query.subscription.findFirst({
-        where: and(
-          eq(schema.subscription.userId, userId),
-          eq(schema.subscription.communityId, community.id),
-        ),
-      })
+  const subscribedResponse = userId
+    ? await db
+        .select()
+        .from(schema.subscription)
+        .innerJoin(
+          schema.subscriptionsToCommunities,
+          eq(
+            schema.subscriptionsToCommunities.subscriptionId,
+            schema.subscription.id,
+          ),
+        )
+        .where(eq(schema.subscription.userId, userId))
     : undefined;
+
+  const isSubscribed = (subscribedResponse ?? []).length > 0;
 
   return (
     <>
@@ -88,7 +99,7 @@ export default async function Page({ params }: { params: { name: string } }) {
 }
 
 interface CommunityFeedProps {
-  posts: Post[];
+  posts: Array<Post & { creator: User }>;
   name: string;
   avatarUrl?: string | null;
 }
