@@ -21,7 +21,7 @@ export const postRouter = t.router({
       await db.insert(schema.post).values({
         id,
         title: input.title,
-        content: JSON.stringify(input.content ?? { hello: "world" }),
+        content: input.content,
         communityName: input.communityName,
         creatorId: ctx.user.id,
         createdAt: new Timestamp(),
