@@ -9,6 +9,13 @@ export async function clean() {
     db.delete(community),
     db.delete(subscription),
   ];
-  await Promise.all(promises);
+  const res = await Promise.allSettled(promises);
+  res.forEach((r) => {
+    if (r.status === "rejected") {
+      console.log("Failed to delete", r.reason);
+    } else {
+      console.log("Deleted", r.value);
+    }
+  });
   console.log("Cleaned database");
 }

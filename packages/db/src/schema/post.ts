@@ -1,10 +1,9 @@
 import { relations } from "drizzle-orm";
 import { json, mysqlTable, timestamp, varchar } from "drizzle-orm/mysql-core";
 
-import { comment } from "./comment";
 import { community } from "./community";
 import { user } from "./user";
-import { vote } from "./vote";
+import { votesToPosts } from "./votes-to-posts";
 
 export const post = mysqlTable("post", {
   id: varchar("id", { length: 256 }).primaryKey(),
@@ -21,10 +20,12 @@ export const postRelations = relations(post, ({ one, many }) => ({
     fields: [post.communityName],
     references: [community.name],
   }),
-  votes: many(vote),
+  votesToPost: one(votesToPosts, {
+    fields: [post.id],
+    references: [votesToPosts.postId],
+  }),
   creator: one(user, {
     fields: [post.creatorId],
     references: [user.id],
   }),
-  comments: many(comment),
 }));

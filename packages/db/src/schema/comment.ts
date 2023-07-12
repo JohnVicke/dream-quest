@@ -14,7 +14,7 @@ export const comment = mysqlTable("comment", {
   createdAt: timestamp("created_at", { fsp: 3 }).notNull(),
 });
 
-export const commentRelations = relations(comment, ({ one, many }) => ({
+export const commentRelations = relations(comment, ({ one }) => ({
   posts: one(post, {
     fields: [comment.postId],
     references: [post.id],
@@ -23,7 +23,6 @@ export const commentRelations = relations(comment, ({ one, many }) => ({
     fields: [comment.creatorId],
     references: [user.id],
   }),
-  replies: many(comment),
   replyTo: one(comment, {
     fields: [comment.replyToId],
     references: [comment.creatorId],

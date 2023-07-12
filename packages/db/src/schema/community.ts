@@ -8,7 +8,7 @@ import {
 } from "drizzle-orm/mysql-core";
 
 import { post } from "./post";
-import { subscription } from "./subscription";
+import { subscriptionsToCommunities } from "./subscriptions-to-communities";
 import { user } from "./user";
 
 export const community = mysqlTable(
@@ -30,7 +30,7 @@ export const community = mysqlTable(
 
 export const communityRelations = relations(community, ({ many, one }) => ({
   posts: many(post),
-  subscriptions: many(subscription),
+  subscriptions: many(subscriptionsToCommunities),
   creator: one(user, {
     fields: [community.creatorId],
     references: [user.id],

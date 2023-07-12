@@ -11,15 +11,18 @@
     "lint:fix": "eslint \"**/*.ts*\" --fix",
     "with-env": "dotenv -e ../../.env.local --",
     "type-check": "tsc --noEmit",
-    "db:push": "pnpm with-env drizzle-kit push:mysql"
+    "db:push": "pnpm with-env drizzle-kit push:mysql",
+    "db:studio": "pnpm with-env drizzle-kit studio --port 3001 --verbose",
+    "db:introspect": "pnpm with-env drizzle-kit introspect:mysql",
+    "db:generate": "drizzle-kit generate:mysql"
   },
   "devDependencies": {
     "@dq/eslint-config": "^0.1.0",
     "@dq/tsconfig": "^0.1.0",
     "@types/node": "^17.0.12",
     "dotenv-cli": "^7.2.1",
-    "drizzle-kit": "^0.18.1",
-    "drizzle-orm": "^0.26.5",
+    "drizzle-kit": "^0.19.3",
+    "drizzle-orm": "^0.27.0",
     "eslint": "^7.32.0",
     "tsup": "^7.0.0",
     "typescript": "^5.0.4"

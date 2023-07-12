@@ -4,3 +4,6 @@ export * from "./vote";
 export * from "./subscription";
 export * from "./user";
 export * from "./comment";
+export * from "./subscriptions-to-communities";
+export * from "./votes-to-comments";
+export * from "./votes-to-posts";
