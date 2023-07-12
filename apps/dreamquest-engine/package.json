@@ -34,7 +34,7 @@
     "@trpc/server": "^10.32.0",
     "@uploadthing/react": "^5.0.0",
     "date-fns": "^2.30.0",
-    "drizzle-orm": "^0.26.5",
+    "drizzle-orm": "^0.27.0",
     "drizzle-zod": "^0.4.4",
     "eslint": "^8.43.0",
     "framer-motion": "^10.12.16",
