@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs";
 
 import { db, eq, schema } from "@dq/db";
 
-import { Editor } from "~/modules/posts/editor/editor";
+import { CreatePostForm } from "~/modules/posts/create-post-form";
 
 export default async function SubmitPage() {
   const { userId } = auth();
@@ -19,5 +19,5 @@ export default async function SubmitPage() {
     },
   });
 
-  return <Editor communities={communities} />;
+  return <CreatePostForm communities={communities} />;
 }
