@@ -40,7 +40,9 @@ export function CommunityCombobox({ communities }: CommunityComboboxProps) {
           className="w-[200px] justify-between"
         >
           {match ? (
-            <>{rest.includes("settings") ? rawMatch : communityName}</>
+            <p className="overflow-hidden truncate">
+              {rest.includes("settings") ? rawMatch : communityName}
+            </p>
           ) : (
             <div className="flex items-center gap-x-2 text-muted-foreground">
               <Home className="h-4 w-4" /> Home
@@ -78,7 +80,8 @@ export function CommunityCombobox({ communities }: CommunityComboboxProps) {
                         : "opacity-0",
                     )}
                   />
-                  {community.name}
+
+                  <p className="overflow-hidden truncate">{community.name}</p>
                   {communityName !== community.name && (
                     <ArrowBigRight className="ml-auto h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                   )}
