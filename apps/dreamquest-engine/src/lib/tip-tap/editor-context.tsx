@@ -1,8 +1,8 @@
 import React from "react";
 import { Editor } from "@tiptap/react";
 
-export const TipTapEditorContext = React.createContext<Editor | null>(null);
+export const EditorContext = React.createContext<Editor | null>(null);
 
-export function useTipTapEditor() {
-  return React.useContext(TipTapEditorContext) as Editor;
+export function useEditor() {
+  return React.useContext(EditorContext) as Editor;
 }

@@ -28,10 +28,10 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/form";
-import { TipTapEditor } from "~/lib/tip-tap/editor";
+import { Editor } from "~/lib/tip-tap/editor";
 import { EditorContent } from "~/lib/tip-tap/editor-content";
 import { EditorContentLoading } from "~/lib/tip-tap/editor-content-loading";
-import { TipTapMenuBar } from "~/lib/tip-tap/editor-menu-bar";
+import { EditorMenuBar } from "~/lib/tip-tap/editor-menu-bar";
 import { editorActions } from "~/lib/tip-tap/editor-menu-bar-actions";
 import { trpc } from "~/lib/trpc/client";
 
@@ -94,7 +94,7 @@ export function CreatePostForm(props: EditorProps) {
   }
 
   return (
-    <TipTapEditor>
+    <Editor>
       {({ getJSON }) => (
         <>
           <Form {...form}>
@@ -150,7 +150,7 @@ export function CreatePostForm(props: EditorProps) {
                 )}
               />
               <EditorContent loadingContent={<EditorContentLoading />}>
-                <TipTapMenuBar actions={editorActions} />
+                <EditorMenuBar actions={editorActions} />
               </EditorContent>
               <Button disabled={create.isLoading} type="submit">
                 {create.isLoading ? (
@@ -168,6 +168,6 @@ export function CreatePostForm(props: EditorProps) {
           </Form>
         </>
       )}
-    </TipTapEditor>
+    </Editor>
   );
 }

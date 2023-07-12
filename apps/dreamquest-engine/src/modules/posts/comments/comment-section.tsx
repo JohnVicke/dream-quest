@@ -16,7 +16,7 @@ import {
 } from "@dq/ui/select";
 
 import { getTimeSincePosted } from "~/utils/get-time-since-posted";
-import { TipTapEditorPreview } from "~/lib/tip-tap/editor-preview";
+import { EditorPreview } from "~/lib/tip-tap/editor-preview";
 import { ReactQueryProvider } from "~/providers/react-query-provider";
 import { AddCommentForm } from "./add-comment-form";
 import { AddCommentTrigger } from "./add-comment-trigger";
@@ -99,7 +99,7 @@ export async function CommentSection({ postId }: CommentSectionProps) {
                   )}
                 </p>
               </div>
-              <TipTapEditorPreview content={comment.content as JSONContent} />
+              <EditorPreview content={comment.content as JSONContent} />
             </div>
           </div>
         ))}

@@ -17,7 +17,7 @@ import {
   TooltipTrigger,
 } from "@dq/ui/tooltip";
 
-import { useTipTapEditor } from "./editor-context";
+import { useEditor } from "./editor-context";
 import { MenuBarAction } from "./editor-menu-bar-actions";
 
 interface MenuBarButtonProps {
@@ -49,11 +49,11 @@ interface TipTapMenuBarProps {
 
 const MENU_ITEM_WIDTH = 32;
 
-export function TipTapMenuBar({
+export function EditorMenuBar({
   children,
   actions,
 }: React.PropsWithChildren<TipTapMenuBarProps>) {
-  const editor = useTipTapEditor();
+  const editor = useEditor();
   const [dropdownMenuitems, setDropDownMenuItems] = React.useState<
     Array<MenuBarAction>
   >([]);

@@ -4,13 +4,13 @@ import Typography from "@tiptap/extension-typography";
 import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
-import { TipTapEditorContext } from "./editor-context";
+import { EditorContext } from "./editor-context";
 
 interface TipTapEditorProps {
   content: JSONContent;
 }
 
-export function TipTapEditorPreview(props: TipTapEditorProps) {
+export function EditorPreview(props: TipTapEditorProps) {
   const editor = useEditor({
     editable: true,
     extensions: [StarterKit, Typography],
@@ -27,11 +27,11 @@ export function TipTapEditorPreview(props: TipTapEditorProps) {
     );
   }
   return (
-    <TipTapEditorContext.Provider value={editor}>
+    <EditorContext.Provider value={editor}>
       <EditorContent
         editor={editor}
         className="prose prose-sm prose-slate dark:prose-invert min-h-[5rem] max-w-none resize-y rounded-md p-4 focus:outline-none"
       />
-    </TipTapEditorContext.Provider>
+    </EditorContext.Provider>
   );
 }

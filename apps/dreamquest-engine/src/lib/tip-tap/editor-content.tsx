@@ -1,6 +1,6 @@
 import { EditorContent as EditorContentPrimitive } from "@tiptap/react";
 
-import { useTipTapEditor } from "./editor-context";
+import { useEditor } from "./editor-context";
 
 export function EditorContent({
   children,
@@ -9,7 +9,7 @@ export function EditorContent({
   children: React.ReactNode;
   loadingContent?: React.ReactNode;
 }) {
-  const editor = useTipTapEditor();
+  const editor = useEditor();
   if (!editor && loadingContent) {
     return loadingContent;
   }

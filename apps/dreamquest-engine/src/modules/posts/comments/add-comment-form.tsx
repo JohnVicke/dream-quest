@@ -8,10 +8,10 @@ import { Plus } from "lucide-react";
 import { Button } from "@dq/ui/button";
 import { useToast } from "@dq/ui/use-toast";
 
-import { TipTapEditor } from "~/lib/tip-tap/editor";
+import { Editor } from "~/lib/tip-tap/editor";
 import { EditorContent } from "~/lib/tip-tap/editor-content";
 import { EditorContentLoading } from "~/lib/tip-tap/editor-content-loading";
-import { TipTapMenuBar } from "~/lib/tip-tap/editor-menu-bar";
+import { EditorMenuBar } from "~/lib/tip-tap/editor-menu-bar";
 import { editorActions } from "~/lib/tip-tap/editor-menu-bar-actions";
 import { trpc } from "~/lib/trpc/client";
 
@@ -45,17 +45,17 @@ export function AddCommentForm({ postId }: AddCommentFormProps) {
   }
 
   return (
-    <TipTapEditor>
+    <Editor>
       {({ getJSON }) => (
         <EditorContent loadingContent={<EditorContentLoading />}>
-          <TipTapMenuBar actions={editorActions}>
+          <EditorMenuBar actions={editorActions}>
             <Button size="xs" onClick={() => handleSubmit(getJSON())}>
               <Plus className="h-4 w-4" />
               Add comment
             </Button>
-          </TipTapMenuBar>
+          </EditorMenuBar>
         </EditorContent>
       )}
-    </TipTapEditor>
+    </Editor>
   );
 }

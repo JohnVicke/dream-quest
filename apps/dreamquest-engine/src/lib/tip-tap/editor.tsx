@@ -6,7 +6,7 @@ import Typography from "@tiptap/extension-typography";
 import { JSONContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
-import { TipTapEditorContext } from "./editor-context";
+import { EditorContext } from "./editor-context";
 
 import "~/styles/tip-tap-placeholder.css";
 
@@ -18,7 +18,7 @@ interface TipTapEditorProps {
   children: (renderProps: RenderProps) => React.ReactNode;
 }
 
-export function TipTapEditor(props: TipTapEditorProps) {
+export function Editor(props: TipTapEditorProps) {
   const editor = useEditor({
     editable: true,
     extensions: [
@@ -30,10 +30,10 @@ export function TipTapEditor(props: TipTapEditorProps) {
     ],
   });
   return (
-    <TipTapEditorContext.Provider value={editor}>
+    <EditorContext.Provider value={editor}>
       {props.children({
         getJSON: () => editor?.getJSON(),
       })}
-    </TipTapEditorContext.Provider>
+    </EditorContext.Provider>
   );
 }

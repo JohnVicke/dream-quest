@@ -1,6 +1,6 @@
 import { JSONContent } from "@tiptap/react";
 
-import { TipTapEditorPreview } from "~/lib/tip-tap/editor-preview";
+import { EditorPreview } from "~/lib/tip-tap/editor-preview";
 
 interface PostDisplayProps {
   title: string;
@@ -11,7 +11,7 @@ export function PostDisplay({ title, content }: PostDisplayProps) {
   return (
     <div className="prose prose-stone dark:prose-invert">
       <h1>{title}</h1>
-      <TipTapEditorPreview content={content} />
+      <EditorPreview content={content} />
     </div>
   );
 }
