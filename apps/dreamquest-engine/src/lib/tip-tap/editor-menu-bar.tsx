@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Menu, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import { cn } from "@dq/ui";
 import {
@@ -17,8 +17,8 @@ import {
   TooltipTrigger,
 } from "@dq/ui/tooltip";
 
-import { useTipTapEditor } from "./editor";
-import { MenuBarItem, menuBarItems } from "./editor-menu-bar-items";
+import { useTipTapEditor } from "./editor-context";
+import { MenuBarAction } from "./editor-menu-bar-actions";
 
 interface MenuBarButtonProps {
   onClick: () => void;
@@ -43,15 +43,22 @@ const MenuBarButton = React.forwardRef<
   );
 });
 
+interface TipTapMenuBarProps {
+  actions: Array<MenuBarAction>;
+}
+
 const MENU_ITEM_WIDTH = 32;
 
-export function TipTapMenuBar({ children }: React.PropsWithChildren) {
+export function TipTapMenuBar({
+  children,
+  actions,
+}: React.PropsWithChildren<TipTapMenuBarProps>) {
   const editor = useTipTapEditor();
   const [dropdownMenuitems, setDropDownMenuItems] = React.useState<
-    Array<MenuBarItem>
+    Array<MenuBarAction>
   >([]);
   const [visibleMenuItems, setVisibleMenuItems] =
-    React.useState<Array<MenuBarItem>>(menuBarItems);
+    React.useState<Array<MenuBarAction>>(actions);
   const navRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -59,11 +66,11 @@ export function TipTapMenuBar({ children }: React.PropsWithChildren) {
       if (!navRef.current) return null;
       const navWidth = navRef.current.getBoundingClientRect().width;
       const maxVisibleItems = Math.floor(navWidth / MENU_ITEM_WIDTH) - 1; // -1 for dropdown menu
-      if (maxVisibleItems > menuBarItems.length) {
+      if (maxVisibleItems > actions.length) {
         return;
       }
-      const visibleItems = menuBarItems.slice(0, maxVisibleItems);
-      const dropdownItems = menuBarItems.slice(maxVisibleItems);
+      const visibleItems = actions.slice(0, maxVisibleItems);
+      const dropdownItems = actions.slice(maxVisibleItems);
       setDropDownMenuItems(dropdownItems);
       setVisibleMenuItems(visibleItems);
     }
@@ -95,7 +102,7 @@ export function TipTapMenuBar({ children }: React.PropsWithChildren) {
           {dropdownMenuitems.length > 0 && (
             <DropdownMenu>
               <DropdownMenuTrigger className="rounded-md p-2 text-secondary-foreground">
-                <MoreHorizontal className="h-4 w-4 animate-in" />
+                <MoreHorizontal className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {dropdownMenuitems.map((item) => (

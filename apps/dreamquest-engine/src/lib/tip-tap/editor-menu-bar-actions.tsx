@@ -7,11 +7,9 @@ import {
   List,
   ListOrdered,
   LucideIcon,
-  Redo2,
   SplitSquareVertical,
   Strikethrough,
   TextQuote,
-  Undo2,
 } from "lucide-react";
 
 type EditorAction =
@@ -26,7 +24,7 @@ type EditorAction =
   | "blockquote"
   | "hr";
 
-export interface MenuBarItem {
+export interface MenuBarAction {
   name: EditorAction;
   Icon: LucideIcon;
   tooltip: string;
@@ -36,7 +34,7 @@ export interface MenuBarItem {
   active?: boolean;
 }
 
-export const menuBarItems: MenuBarItem[] = [
+export const editorActions: MenuBarAction[] = [
   {
     name: "bold",
     Icon: Bold,
