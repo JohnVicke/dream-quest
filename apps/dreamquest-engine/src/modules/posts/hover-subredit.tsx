@@ -21,7 +21,7 @@ export function HoverSubReddit({
     <HoverCard>
       <HoverCardTrigger asChild>
         <Link
-          className="flex items-end gap-x-2 text-xs font-semibold"
+          className="flex items-end gap-x-2 text-xs font-semibold hover:underline"
           href={`/c/${post.communityName}`}
         >
           {communityAvatarUrl && (
