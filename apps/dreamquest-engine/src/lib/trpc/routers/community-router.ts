@@ -30,8 +30,9 @@ export const communityRouter = t.router({
       }
 
       await db.transaction(async (trx) => {
-        const insertedCommunity = await trx.insert(schema.community).values({
-          id: nanoid(),
+        const communityId = nanoid();
+        await trx.insert(schema.community).values({
+          id: communityId,
           normalizedName,
           name: input.name,
           type: input.type,
@@ -39,11 +40,16 @@ export const communityRouter = t.router({
           createdAt: new Timestamp(),
           updatedAt: new Timestamp(),
         });
+        const subscriptionId = nanoid();
         await trx.insert(schema.subscription).values({
+          id: subscriptionId,
           userId: ctx.user.id,
-          communityId: insertedCommunity.insertId,
           createdAt: new Timestamp(),
           updatedAt: new Timestamp(),
+        });
+        await trx.insert(schema.subscriptionsToCommunities).values({
+          communityId: communityId,
+          subscriptionId: subscriptionId,
         });
       });
 
