@@ -18,7 +18,7 @@ export default function SSOCallback(props: { searchParams: SearchParams }) {
   const { handleRedirectCallback } = useClerk();
 
   useEffect(() => {
-    //void handleRedirectCallback(props.searchParams);
+    void handleRedirectCallback(props.searchParams);
   }, [props.searchParams, handleRedirectCallback]);
 
   return (

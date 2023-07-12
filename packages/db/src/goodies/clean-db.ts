@@ -1,5 +1,14 @@
 import { db } from "../db";
-import { community, post, subscription, user, vote } from "../schema";
+import {
+  comment,
+  community,
+  post,
+  subscription,
+  subscriptionsToCommunities,
+  user,
+  vote,
+  votesToPosts,
+} from "../schema";
 
 export async function clean() {
   const promises = [
@@ -8,6 +17,9 @@ export async function clean() {
     db.delete(vote),
     db.delete(community),
     db.delete(subscription),
+    db.delete(comment),
+    db.delete(votesToPosts),
+    db.delete(subscriptionsToCommunities),
   ];
   const res = await Promise.allSettled(promises);
   res.forEach((r) => {

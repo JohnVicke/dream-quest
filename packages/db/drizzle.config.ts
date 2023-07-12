@@ -1,5 +1,7 @@
 import type { Config } from "drizzle-kit";
 
+import { clean } from "./src/goodies/clean-db";
+
 export default {
   schema: "./src/schema/index.ts",
   out: "./migrations",
@@ -9,4 +11,4 @@ export default {
   },
 } satisfies Config;
 
-// clean();
+clean();

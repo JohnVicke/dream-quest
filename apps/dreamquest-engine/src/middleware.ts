@@ -14,12 +14,16 @@ export default authMiddleware({
     if (auth.isPublicRoute) {
       return NextResponse.next();
     }
+    if (!auth.user?.username) {
+      return redirect("/complete-signup", req);
+    }
     if (!auth.userId && req.nextUrl.pathname.endsWith("settings")) {
       return redirect("/signin", req);
     }
     if (!auth.userId) {
       return redirect("/signin", req);
     }
+    return NextResponse.next();
   },
 });
 export const config = {

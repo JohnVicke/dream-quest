@@ -46,7 +46,8 @@ export async function PostCardBasic({
           )}
           <p className="flex items-center text-xs">
             {!hideSubreddit && <span className="mr-1">•</span>}
-            posted by {post?.creator?.username}{" "}
+            posted by {post?.creator?.username}
+            <span className="mx-1">•</span>
             {getTimeSincePosted(post.createdAt)}
           </p>
         </div>
