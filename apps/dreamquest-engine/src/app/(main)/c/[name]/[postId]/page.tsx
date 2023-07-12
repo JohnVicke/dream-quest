@@ -3,6 +3,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs";
+import { JSONContent } from "@tiptap/react";
 
 import { and, db, eq, schema, sql } from "@dq/db";
 
@@ -107,7 +108,7 @@ export default async function CommunityPostPage({
       </div>
       <div className="my-2" />
       <div className="rounded-md p-4">
-        <PostDisplay title={post.title} content={post.content as any} />
+        <PostDisplay title={post.title} content={post.content as JSONContent} />
         <div className="my-4" />
         <div className="flex items-center gap-x-4">
           <VoteControls
