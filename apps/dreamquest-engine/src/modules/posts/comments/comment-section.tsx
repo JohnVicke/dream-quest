@@ -67,7 +67,7 @@ export async function CommentSection({ postId }: CommentSectionProps) {
         </p>
       </div>
       <div className="my-8" />
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2" id="comment-section">
         {comments.map((comment) => (
           <div id={comment.id} className="relative flex items-start gap-x-2">
             <div className="absolute left-5 h-full w-px bg-border" />
