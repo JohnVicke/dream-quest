@@ -1,18 +1,21 @@
-import { cache } from "react";
+import { cache, Suspense } from "react";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 import { JSONContent } from "@tiptap/react";
+import { Share } from "lucide-react";
 
-import { and, db, eq, schema, sql } from "@dq/db";
+import { db, eq, schema, sql } from "@dq/db";
+import { Button } from "@dq/ui/button";
 
 import { getTimeSincePosted } from "~/utils/get-time-since-posted";
 import { CommentSection } from "~/modules/posts/comments/comment-section";
 import { PostDisplay } from "~/modules/posts/post-display";
 import { RemovePostButton } from "~/modules/posts/remove-post-button";
 import { ShareButton } from "~/modules/posts/share-button";
-import { VoteControls } from "~/modules/posts/vote-controls";
+import { VoteServer } from "~/modules/posts/votes/vote-server";
 import { ReactQueryProvider } from "~/providers/react-query-provider";
 
 interface CommunityPostPageProps {
@@ -57,26 +60,6 @@ export default async function CommunityPostPage({
     return notFound();
   }
 
-  // TODO: refactor vote logic into its own server component and use suspense
-  const sessionVote = userId
-    ? await db.query.vote.findFirst({
-        where: and(
-          eq(schema.vote.postId, post.id),
-          eq(schema.vote.creatorId, userId),
-        ),
-      })
-    : null;
-
-  const votes = await db
-    .select({
-      votes: sql<number>`sum(case 
-                             when ${schema.vote.value} = 'up' then 1
-                             when ${schema.vote.value} = 'down' then -1
-                         else 0 end)`,
-    })
-    .from(schema.vote)
-    .where(eq(schema.vote.postId, post.id));
-
   return (
     <div>
       <div className="flex justify-between rounded-md border p-4">
@@ -92,8 +75,12 @@ export default async function CommunityPostPage({
               />
             )}
             <h4 className="text-sm font-semibold text-muted-foreground">
-              c/{post.community?.name} •{" "}
-              <time>{getTimeSincePosted(post.createdAt)}</time>
+              <Link href={`/c/${post.community.name}`}>
+                c/{post.community?.name} •{" "}
+              </Link>
+              <time className="text-xs font-normal">
+                {getTimeSincePosted(post.createdAt)}
+              </time>
             </h4>
           </div>
           <p className="flex items-center text-xs">
@@ -111,14 +98,15 @@ export default async function CommunityPostPage({
         <PostDisplay title={post.title} content={post.content as JSONContent} />
         <div className="my-4" />
         <div className="flex items-center gap-x-4">
-          <VoteControls
-            direction="row"
-            initialVotes={votes[0].votes ?? 0}
-            postId={post.id}
-            isAuthed={!!userId}
-            initialVote={sessionVote}
-          />
-          <ShareButton />
+          <Suspense>
+            <VoteServer direction="row" postId={post.id} />
+          </Suspense>
+          <ShareButton currentRoute>
+            <Button>
+              <Share className="mr-4 h-4 w-4" />
+              Share
+            </Button>
+          </ShareButton>
         </div>
         <div className="my-8" />
         <CommentSection postId={post.id} />
