@@ -8,6 +8,7 @@ export async function handleUserUpdate(user: UserJSON) {
     await db
       .update(schema.user)
       .set({
+        username: user.username as string, // always defined since we require it
         profileImageUrl: user.profile_image_url,
         updatedAt: new Date(),
       })
