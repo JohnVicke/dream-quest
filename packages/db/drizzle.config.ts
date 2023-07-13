@@ -11,4 +11,4 @@ export default {
   },
 } satisfies Config;
 
-clean();
+// clean();
