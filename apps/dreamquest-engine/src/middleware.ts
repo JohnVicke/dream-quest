@@ -6,6 +6,7 @@ export default authMiddleware({
     "/",
     "/signin(.*)",
     "/signup(.*)",
+    "/u(.*)",
     "/sso-callback(.*)",
     "/c(.*)",
     "/api(.*)",
@@ -14,7 +15,7 @@ export default authMiddleware({
     if (auth.isPublicRoute) {
       return NextResponse.next();
     }
-    if (!auth.user?.username) {
+    if (!auth?.sessionClaims?.username) {
       return redirect("/complete-signup", req);
     }
     if (!auth.userId && req.nextUrl.pathname.endsWith("settings")) {
@@ -23,7 +24,6 @@ export default authMiddleware({
     if (!auth.userId) {
       return redirect("/signin", req);
     }
-    return NextResponse.next();
   },
 });
 export const config = {
