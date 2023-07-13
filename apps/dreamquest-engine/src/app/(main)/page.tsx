@@ -17,7 +17,9 @@ export default async function LandingPage() {
 
   return (
     <>
-      <CreatePostTrigger />
+      <Suspense>
+        <CreatePostTrigger />
+      </Suspense>
       <div className="py-4" />
       <div className="flex flex-col gap-y-2">
         <Suspense>
