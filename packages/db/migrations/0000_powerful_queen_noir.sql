@@ -1,3 +1,9 @@
+CREATE TABLE `comment_thread` (
+	`parent_id` varchar(256) NOT NULL,
+	`child_id` varchar(256) NOT NULL,
+	PRIMARY KEY(`child_id`,`parent_id`)
+);
+--> statement-breakpoint
 CREATE TABLE `community` (
 	`id` varchar(256) PRIMARY KEY NOT NULL,
 	`creator_id` varchar(256) NOT NULL,
@@ -39,10 +45,10 @@ CREATE TABLE `user` (
 --> statement-breakpoint
 CREATE TABLE `comment` (
 	`id` varchar(256) PRIMARY KEY NOT NULL,
+	`is_top_level` boolean DEFAULT true,
 	`post_id` varchar(256) NOT NULL,
 	`creator_id` varchar(256) NOT NULL,
 	`content` json NOT NULL,
-	`reply_to_id` varchar(256),
 	`updated_at` timestamp(3) NOT NULL,
 	`created_at` timestamp(3) NOT NULL);
 --> statement-breakpoint
