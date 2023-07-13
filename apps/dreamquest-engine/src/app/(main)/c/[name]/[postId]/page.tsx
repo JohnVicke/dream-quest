@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs";
-import { JSONContent } from "@tiptap/react";
+import type { JSONContent } from "@tiptap/react";
 import { Share } from "lucide-react";
 
-import { db, eq, schema, sql } from "@dq/db";
+import { db, eq, schema } from "@dq/db";
 import { Button } from "@dq/ui/button";
 
 import { getTimeSincePosted } from "~/utils/get-time-since-posted";
@@ -34,6 +34,7 @@ const selectPost = cache(async (id: string) => {
   });
 });
 
+// TODO: add field meta description to the post when creating it
 export async function generateMetadata(
   { params }: CommunityPostPageProps,
   _parent?: ResolvingMetadata,
