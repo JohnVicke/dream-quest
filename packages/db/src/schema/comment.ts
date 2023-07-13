@@ -9,7 +9,7 @@ export const comment = mysqlTable("comment", {
   postId: varchar("post_id", { length: 256 }).notNull(),
   creatorId: varchar("creator_id", { length: 256 }).notNull(),
   content: json("content").notNull(),
-  replyToId: varchar("reply_to_id", { length: 256 }),
+  parentId: varchar("parent_id", { length: 256 }),
   updatedAt: timestamp("updated_at", { fsp: 3 }).notNull(),
   createdAt: timestamp("created_at", { fsp: 3 }).notNull(),
 });
@@ -22,9 +22,5 @@ export const commentRelations = relations(comment, ({ one }) => ({
   creator: one(user, {
     fields: [comment.creatorId],
     references: [user.id],
-  }),
-  replyTo: one(comment, {
-    fields: [comment.replyToId],
-    references: [comment.creatorId],
   }),
 }));
