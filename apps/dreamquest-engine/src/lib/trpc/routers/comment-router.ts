@@ -1,8 +1,9 @@
 import { JSONContent } from "@tiptap/react";
+import { TRPCError } from "@trpc/server";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 
-import { db, schema } from "@dq/db";
+import { db, eq, schema } from "@dq/db";
 
 import { Timestamp } from "~/utils/timestamp";
 import { protectedProcedure, t } from "../trpc";
@@ -40,6 +41,32 @@ export const commentRouter = t.router({
         createdAt: new Timestamp(),
         updatedAt: new Timestamp(),
       });
+      return true;
+    }),
+  replyToComment: protectedProcedure
+    .input(z.object({ commentId: z.string(), content: contentSchema }))
+    .mutation(async ({ input, ctx }) => {
+      const parent = await db.query.comment.findFirst({
+        where: eq(schema.comment.id, input.commentId),
+      });
+
+      if (!parent) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Comment not found",
+        });
+      }
+
+      await db.insert(schema.comment).values({
+        id: nanoid(),
+        postId: parent.postId,
+        parentId: parent.id,
+        content: input.content,
+        creatorId: ctx.user.id,
+        createdAt: new Timestamp(),
+        updatedAt: new Timestamp(),
+      });
+
       return true;
     }),
 });
