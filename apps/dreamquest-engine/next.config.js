@@ -12,6 +12,9 @@ const config = {
   images: {
     domains: ["uploadthing.com"],
   },
+  redirects: () => [
+    { source: "/settings", destination: "/settings/account", permanent: true },
+  ],
 };
 
 module.exports = config;
