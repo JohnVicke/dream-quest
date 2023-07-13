@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { currentUser } from "@clerk/nextjs";
-import { Image, Link as LinkIcon, User } from "lucide-react";
+import { auth } from "@clerk/nextjs";
+import { Image, Link as LinkIcon } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@dq/ui/avatar";
+import { db, eq, schema } from "@dq/db";
 import { Button } from "@dq/ui/button";
 import { Input } from "@dq/ui/input";
 
-import { initialsFromUser } from "~/utils/initials-from-user";
+import { UserAvatar } from "~/components/user-avatar";
 
 interface CreatePostTriggerProps {
   communityName?: string;
@@ -15,18 +15,19 @@ interface CreatePostTriggerProps {
 export async function CreatePostTrigger({
   communityName,
 }: CreatePostTriggerProps) {
-  const user = await currentUser();
+  const { userId } = auth();
+
+  const user = userId
+    ? await db.query.user.findFirst({
+        where: eq(schema.user.id, userId),
+      })
+    : undefined;
 
   const href = communityName ? `/c/${communityName}/submit` : "/submit";
 
   return (
     <div className="flex gap-x-2">
-      <Avatar>
-        <AvatarImage src={user?.profileImageUrl} />
-        <AvatarFallback>
-          {user ? initialsFromUser(user) : <User />}
-        </AvatarFallback>
-      </Avatar>
+      <UserAvatar src={user?.profileImageUrl} />
       <Link href={href} passHref className="w-full">
         <Input placeholder="Create post" />
       </Link>
