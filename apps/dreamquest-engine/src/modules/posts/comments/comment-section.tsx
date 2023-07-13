@@ -1,11 +1,16 @@
-import Link from "next/link";
 import { auth } from "@clerk/nextjs";
-import { JSONContent } from "@tiptap/react";
-import isEqual from "date-fns/isEqual";
-import { User } from "lucide-react";
+import { alias } from "drizzle-orm/mysql-core";
 
-import { db, desc, eq, schema } from "@dq/db";
-import { Avatar, AvatarFallback, AvatarImage } from "@dq/ui/avatar";
+import {
+  and,
+  db,
+  desc,
+  eq,
+  isNull,
+  schema,
+  type Comment,
+  type User,
+} from "@dq/db";
 import {
   Select,
   SelectContent,
@@ -15,26 +20,91 @@ import {
   SelectValue,
 } from "@dq/ui/select";
 
-import { getTimeSincePosted } from "~/utils/get-time-since-posted";
-import { EditorPreview } from "~/lib/tip-tap/editor-preview";
 import { ReactQueryProvider } from "~/providers/react-query-provider";
 import { AddCommentForm } from "./add-comment-form";
 import { AddCommentTrigger } from "./add-comment-trigger";
+import { CommentThread } from "./comment-thread";
 
 interface CommentSectionProps {
   postId: string;
 }
 
+function selectComments(postId: string) {
+  const topLevel = alias(schema.comment, "comment");
+  const creator = alias(schema.user, "creator");
+  const children = alias(schema.comment, "child");
+  const childCreator = alias(schema.user, "childCreator");
+
+  return db
+    .select()
+    .from(topLevel)
+    .leftJoin(children, eq(schema.comment.id, children.parentId))
+    .leftJoin(childCreator, eq(children.creatorId, childCreator.id))
+    .innerJoin(creator, eq(topLevel.creatorId, creator.id))
+    .where(and(isNull(topLevel.parentId), eq(topLevel.postId, postId)))
+    .orderBy(desc(topLevel.createdAt));
+}
+
+export type TransformedComment = Comment & {
+  creator: User;
+  children?: TransformedComment[];
+};
+
+function transformIntoCommentTree(
+  comments: Awaited<ReturnType<typeof selectComments>>,
+) {
+  const commentMap = comments.reduce((acc, commentResponse) => {
+    const { comment, child, childCreator, creator } = commentResponse;
+
+    const transformedChild: TransformedComment | undefined =
+      childCreator && child
+        ? {
+            ...child,
+            creator: childCreator,
+          }
+        : undefined;
+
+    if (!acc.has(comment.id)) {
+      const transformedComment: TransformedComment = {
+        ...comment,
+        creator,
+        children: [],
+      };
+      acc.set(comment.id, transformedComment);
+    }
+
+    if (transformedChild) {
+      acc.get(comment.id)?.children!.push(transformedChild);
+    }
+
+    return acc;
+  }, new Map<string, TransformedComment>());
+
+  return Array.from(commentMap.values()).map((comment) => ({
+    ...comment,
+    children: (comment.children || []).sort((a, b) => {
+      const timestampA = new Date(a.createdAt).getTime();
+      const timestampB = new Date(b.createdAt).getTime();
+      return timestampB - timestampA;
+    }),
+  }));
+}
+
 export async function CommentSection({ postId }: CommentSectionProps) {
   const { userId } = auth();
-  const comments = await db.query.comment.findMany({
-    with: {
-      creator: true,
-    },
-    orderBy: desc(schema.comment.createdAt),
-    where: eq(schema.comment.postId, postId),
-    limit: 10,
-  });
+
+  const commentResponse = await selectComments(postId);
+
+  if (!commentResponse) {
+    return (
+      <div>
+        <div className="mt-4" />
+        no comments
+      </div>
+    );
+  }
+
+  const comments = transformIntoCommentTree(commentResponse);
 
   return (
     <div>
@@ -69,39 +139,7 @@ export async function CommentSection({ postId }: CommentSectionProps) {
       <div className="my-8" />
       <div className="flex flex-col gap-y-2" id="comment-section">
         {comments.map((comment) => (
-          <div id={comment.id} className="relative flex items-start gap-x-2">
-            <div className="absolute left-5 h-full w-px bg-border" />
-            <div className="flex flex-col items-center">
-              <Avatar>
-                <AvatarImage
-                  src={comment.creator?.profileImageUrl ?? undefined}
-                />
-                <AvatarFallback>
-                  <User />
-                </AvatarFallback>
-              </Avatar>
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-x-2">
-                <Link
-                  className="text-sm font-semibold"
-                  href={`/u/${comment.creator?.username ?? "virren1337"}`}
-                >
-                  {comment.creator?.username ?? "virren1337"}
-                </Link>
-                <p className="flex gap-x-2 text-xs text-muted-foreground">
-                  • <time>{getTimeSincePosted(comment.createdAt)}</time>
-                  {isEqual(comment.createdAt, comment.updatedAt) && (
-                    <>
-                      • edited
-                      <time>{getTimeSincePosted(comment.updatedAt)}</time>
-                    </>
-                  )}
-                </p>
-              </div>
-              <EditorPreview content={comment.content as JSONContent} />
-            </div>
-          </div>
+          <CommentThread key={comment.id} comment={comment} />
         ))}
       </div>
     </div>
