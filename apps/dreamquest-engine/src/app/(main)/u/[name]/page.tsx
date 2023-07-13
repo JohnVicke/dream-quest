@@ -32,7 +32,7 @@ export default async function UserPage({
           className="mb-4 flex items-center gap-x-2"
         >
           <Settings className="h-4 w-4" />
-          Moderator settings
+          Settings
         </Link>
       )}
       <div className="flex items-center justify-between border p-4">
