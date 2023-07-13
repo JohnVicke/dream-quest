@@ -35,9 +35,6 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  openGraph: {
-    images: [{ url: "/opengraph-image.png" }],
-  },
 };
 
 export default function RootLayout({
