@@ -1,16 +1,5 @@
 import { auth } from "@clerk/nextjs";
-import { alias } from "drizzle-orm/mysql-core";
 
-import {
-  and,
-  db,
-  desc,
-  eq,
-  isNull,
-  schema,
-  type Comment,
-  type User,
-} from "@dq/db";
 import {
   Select,
   SelectContent,
@@ -24,70 +13,11 @@ import { ReactQueryProvider } from "~/providers/react-query-provider";
 import { AddCommentForm } from "./add-comment-form";
 import { AddCommentTrigger } from "./add-comment-trigger";
 import { CommentThread } from "./comment-thread";
+import { commentsToThread } from "./comments-to-thread/comments-to-thread";
+import { selectComments } from "./comments-to-thread/select-comments";
 
 interface CommentSectionProps {
   postId: string;
-}
-
-function selectComments(postId: string) {
-  const topLevel = alias(schema.comment, "comment");
-  const creator = alias(schema.user, "creator");
-  const children = alias(schema.comment, "child");
-  const childCreator = alias(schema.user, "childCreator");
-
-  return db
-    .select()
-    .from(topLevel)
-    .leftJoin(children, eq(schema.comment.id, children.parentId))
-    .leftJoin(childCreator, eq(children.creatorId, childCreator.id))
-    .innerJoin(creator, eq(topLevel.creatorId, creator.id))
-    .where(and(isNull(topLevel.parentId), eq(topLevel.postId, postId)))
-    .orderBy(desc(topLevel.createdAt));
-}
-
-export type TransformedComment = Comment & {
-  creator: User;
-  children?: TransformedComment[];
-};
-
-function transformIntoCommentTree(
-  comments: Awaited<ReturnType<typeof selectComments>>,
-) {
-  const commentMap = comments.reduce((acc, commentResponse) => {
-    const { comment, child, childCreator, creator } = commentResponse;
-
-    const transformedChild: TransformedComment | undefined =
-      childCreator && child
-        ? {
-            ...child,
-            creator: childCreator,
-          }
-        : undefined;
-
-    if (!acc.has(comment.id)) {
-      const transformedComment: TransformedComment = {
-        ...comment,
-        creator,
-        children: [],
-      };
-      acc.set(comment.id, transformedComment);
-    }
-
-    if (transformedChild) {
-      acc.get(comment.id)?.children!.push(transformedChild);
-    }
-
-    return acc;
-  }, new Map<string, TransformedComment>());
-
-  return Array.from(commentMap.values()).map((comment) => ({
-    ...comment,
-    children: (comment.children || []).sort((a, b) => {
-      const timestampA = new Date(a.createdAt).getTime();
-      const timestampB = new Date(b.createdAt).getTime();
-      return timestampB - timestampA;
-    }),
-  }));
 }
 
 export async function CommentSection({ postId }: CommentSectionProps) {
@@ -104,7 +34,7 @@ export async function CommentSection({ postId }: CommentSectionProps) {
     );
   }
 
-  const comments = transformIntoCommentTree(commentResponse);
+  const comments = commentsToThread(commentResponse);
 
   return (
     <div>
