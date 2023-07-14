@@ -5,7 +5,7 @@ import { comment } from "./comment";
 import { vote } from "./vote";
 
 export const votesToComments = mysqlTable(
-  "votes_to_posts",
+  "votes_to_comments",
   {
     voteId: varchar("vote_id", { length: 256 }),
     commentId: varchar("comment_id", { length: 256 }),

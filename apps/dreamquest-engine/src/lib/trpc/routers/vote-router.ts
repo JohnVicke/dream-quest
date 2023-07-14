@@ -1,3 +1,4 @@
+import { alias } from "drizzle-orm/mysql-core";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 
@@ -10,24 +11,29 @@ export const voteRouter = t.router({
   update: protectedProcedure
     .input(
       z.object({
-        postId: z.string(),
+        id: z.string(),
+        type: z.enum(["post", "comment"]),
         value: z.enum(["up", "down"]),
       }),
     )
     .mutation(async ({ input, ctx }) => {
+      const postAlias = alias(schema.votesToPosts, "votesToPosts");
+      const commentAlias = alias(schema.votesToComments, "votesToComments");
+      const currentAlias = input.type === "post" ? postAlias : commentAlias;
+      const currentIdAlias =
+        input.type === "post" ? postAlias.postId : commentAlias.voteId;
+
       const result = await db
         .select()
         .from(schema.vote)
-        .innerJoin(
-          schema.votesToPosts,
-          eq(schema.votesToPosts.voteId, schema.vote.id),
-        )
+        .innerJoin(currentAlias, eq(currentAlias.voteId, schema.vote.id))
         .where(
           and(
             eq(schema.vote.creatorId, ctx.user.id),
-            eq(schema.votesToPosts.postId, input.postId),
+            eq(currentIdAlias, input.id),
           ),
         );
+      console.log(result);
 
       const vote = result?.[0]?.vote;
 
@@ -41,9 +47,16 @@ export const voteRouter = t.router({
             updatedAt: new Timestamp(),
             createdAt: new Timestamp(),
           });
-          await trx.insert(schema.votesToPosts).values({
-            postId: input.postId,
+          if (input.type === "post") {
+            await trx.insert(schema.votesToPosts).values({
+              postId: input.id,
+              voteId,
+            });
+            return true;
+          }
+          await trx.insert(schema.votesToComments).values({
             voteId,
+            commentId: input.id,
           });
         });
         return true;
@@ -53,9 +66,15 @@ export const voteRouter = t.router({
         console.log(vote.id);
         await db.transaction(async (trx) => {
           await trx.delete(schema.vote).where(eq(schema.vote.id, vote.id));
+          if (input.type === "post") {
+            await trx
+              .delete(schema.votesToPosts)
+              .where(eq(schema.votesToPosts.voteId, vote.id));
+            return true;
+          }
           await trx
-            .delete(schema.votesToPosts)
-            .where(eq(schema.votesToPosts.voteId, vote.id));
+            .delete(schema.votesToComments)
+            .where(eq(schema.votesToComments.voteId, vote.id));
         });
         return true;
       }

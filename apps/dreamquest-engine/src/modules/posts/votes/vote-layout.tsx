@@ -1,7 +1,5 @@
 "use client";
 
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { ArrowBigDownDash, ArrowBigUpDash } from "lucide-react";
 
 import { Vote } from "@dq/db";
@@ -9,46 +7,24 @@ import { cn } from "@dq/ui";
 import { Button } from "@dq/ui/button";
 
 import { withTrpc } from "~/components/with-trpc";
-import { trpc } from "~/lib/trpc/client";
 
-export const VoteControls = withTrpc(
+export const VoteControlsLayout = withTrpc(
   ({
-    initialVotes,
     className,
-    postId,
+    isPending,
+    initialVotes,
     initialVote,
-    isAuthed,
     direction = "column",
+    handleVote,
   }: {
+    handleVote: (value: "up" | "down") => void;
     initialVotes: number;
-    postId: string;
+    isPending: boolean;
     isAuthed?: boolean;
     initialVote?: Partial<Vote> | null;
     direction?: "row" | "column";
     className?: string;
   }) => {
-    const [isPending, startTransition] = useTransition();
-    const router = useRouter();
-
-    const voteMutation = trpc.vote.update.useMutation({
-      // TODO: add onMutation optimistic update for this one instead
-      onSuccess: () => {
-        startTransition(() => {
-          router.refresh();
-        });
-      },
-    });
-
-    function handleVote(value: "up" | "down") {
-      if (!isAuthed) {
-        return router.push("/signin");
-      }
-      voteMutation.mutate({
-        postId,
-        value,
-      });
-    }
-
     return (
       <div
         className={cn(

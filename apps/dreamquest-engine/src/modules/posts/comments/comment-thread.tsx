@@ -13,6 +13,7 @@ import {
 import { getTimeSincePosted } from "~/utils/get-time-since-posted";
 import { UserAvatar } from "~/components/user-avatar";
 import { EditorPreview } from "~/lib/tip-tap/editor-preview";
+import { CommentVoteServer } from "../votes/vote-server";
 import { CommentActions } from "./comment-actions";
 import { TransformedComment } from "./comments-to-thread/comments-to-thread";
 
@@ -60,10 +61,12 @@ export function CommentThread({ comment }: CommentProps) {
           className="ml-8"
           commentId={comment.id}
           hasEditRights={hasEditRights}
-        />
+        >
+          <CommentVoteServer direction="row" commentId={comment.id} />
+        </CommentActions>
         <div className="ml-8 mt-4 flex flex-col gap-y-2">
           {comment.children?.map((child) => (
-            <CommentThread comment={child} />
+            <CommentThread key={child.id} comment={child} />
           ))}
         </div>
       </div>

@@ -6,7 +6,7 @@ import { db, eq, Post, schema, sql, User } from "@dq/db";
 import { getTimeSincePosted } from "~/utils/get-time-since-posted";
 import { HoverSubReddit } from "./hover-subredit";
 import { ShareButton } from "./share-button";
-import { VoteServer } from "./votes/vote-server";
+import { PostVoteServer } from "./votes/vote-server";
 
 interface PostCardBasicProps {
   post: Post & { creator: User };
@@ -35,7 +35,7 @@ export async function PostCardBasic({
       >
         <span className="hidden">{post.title}</span>
       </Link>
-      <VoteServer postId={post.id} direction="column" />
+      <PostVoteServer postId={post.id} direction="column" />
       <div className="flex flex-col p-4 [&>div>a]:z-10">
         <div className="flex items-end gap-x-2 ">
           {!hideSubreddit && (

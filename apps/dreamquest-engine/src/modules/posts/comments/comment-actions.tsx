@@ -21,8 +21,10 @@ export function CommentActions({
   commentId,
   className,
   hasEditRights,
+  children,
 }: {
   className?: string;
+  children?: React.ReactNode;
   hasEditRights: boolean;
   commentId: string;
 }) {
@@ -31,10 +33,17 @@ export function CommentActions({
     <ReactQueryProvider>
       <div className={cn("flex flex-col gap-y-4", className)}>
         <div className="flex justify-between">
-          <Button variant="ghost" size="sm" onClick={() => setReplyOpen(true)}>
-            <MessageSquare className="mr-2 h-4 w-4" />
-            Reply
-          </Button>
+          <div className="flex gap-x-2">
+            {children}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setReplyOpen(true)}
+            >
+              <MessageSquare className="mr-2 h-4 w-4" />
+              Reply
+            </Button>
+          </div>
           {hasEditRights && (
             <div className="flex gap-x-2">
               <Button

@@ -15,7 +15,7 @@ import { CommentSection } from "~/modules/posts/comments/comment-section";
 import { PostDisplay } from "~/modules/posts/post-display";
 import { RemovePostButton } from "~/modules/posts/remove-post-button";
 import { ShareButton } from "~/modules/posts/share-button";
-import { VoteServer } from "~/modules/posts/votes/vote-server";
+import { PostVoteServer } from "~/modules/posts/votes/vote-server";
 import { ReactQueryProvider } from "~/providers/react-query-provider";
 
 interface CommunityPostPageProps {
@@ -100,7 +100,7 @@ export default async function CommunityPostPage({
         <div className="my-4" />
         <div className="flex items-center gap-x-4">
           <Suspense>
-            <VoteServer direction="row" postId={post.id} />
+            <PostVoteServer direction="row" postId={post.id} />
           </Suspense>
           <ShareButton currentRoute>
             <Button>
